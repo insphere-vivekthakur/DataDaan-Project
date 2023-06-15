@@ -5,16 +5,14 @@ import { useState } from "react";
 import FileUpload from "../../components/FileUpload";
 import GlobalStyles from "../../styles/Styles";
 import { useHistory } from "react-router-dom";
-// import FileUploadAPI from "../../../actions/apis/FileUpload/FileUpload";
 import Snackbar from "../../components/Snackbar";
 import LinearIndeterminate from "../../components/LinearProgress";
 import TermsAndConditionsModal from "./TermsAndConditionsModal";
-// import TermsAndConditions from "../../../actions/apis/TermsAndConditions/GetTermsAndConditions";
 import { textFields } from "../../../utils/utils";
-// import axios from "axios";
-
 import { useFormik } from "formik";
 import { RegisterSchema } from "../../schemas";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialValues = {
   name: "",
@@ -32,7 +30,7 @@ const UploadData = (props) => {
       console.log("Formik", values);
     },
   });
-  console.log("errors", errors);
+  // console.log("errors", errors);
   const { classes, setID } = props;
   const [meta, setMeta] = useState([]);
   const [zip, setZip] = useState([]);
@@ -54,68 +52,6 @@ const UploadData = (props) => {
     emailId: "",
     contactNumber: "",
   });
-
-  // const disableSubmit = () => {
-  //   if (
-  //     meta.length <= 0 ||
-  //     zip.length <= 0 ||
-  //     !userDetails.organizationName ||
-  //     !userDetails.officerName ||
-  //     !userDetails.designation ||
-  //     !userDetails.emailId ||
-  //     !userDetails.contactNumber
-  //   ) {
-  //     return true;
-  //   }
-
-  //   return false;
-  // };
-
-  // const fetchTAndCData = async () => {
-  //   const apiObj = new TermsAndConditions();
-
-  //   fetch(apiObj.apiEndPoint(), {
-  //     method: "get",
-  //     headers: apiObj.getHeaders(),
-  //   })
-  //     .then(async (res) => {
-  //       const rsp_data = await res.json();
-
-  //       if (res.ok) {
-  //         const {
-  //           termsAndConditions: {
-  //             acceptance,
-  //             additionalDetails,
-  //             mainText,
-  //             specificPermissions,
-  //           },
-  //         } = rsp_data;
-  //         setTAndCData({
-  //           acceptance,
-  //           additionalDetails,
-  //           mainText,
-  //           specificPermissions,
-  //         });
-  //         setModal(true);
-  //       } else {
-  //         return Promise.reject(rsp_data);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       setSnackbarInfo({
-  //         ...snackbar,
-  //         open: true,
-  //         message: err.message,
-  //         variant: "error",
-  //       });
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   if (!localStorage.getItem("acceptedTnC")) {
-  //     fetchTAndCData();
-  //   }
-  // }, []);
 
   const handleClose = () => {
     history.push(`${process.env.PUBLIC_URL}/datadaan/my-contribution`);
@@ -185,8 +121,15 @@ const UploadData = (props) => {
     });
   };
 
+  // let flag= false
   const handleSubmitUpload = async (event) => {
+    toast.success("Submitted succesfully , visit My contribution", {
+      position: "top-center",
+    });
+
     event.preventDefault();
+
+    console.log("checkkkkk");
     console.log(meta, zip, "check meta data");
     const formData = new FormData();
     formData.append("file", zip[0]);
@@ -218,19 +161,31 @@ const UploadData = (props) => {
         body: formData,
       })
         .then((response) => response.json())
+
         .then((data) => {
           console.log(data);
           setID(data[0]._id);
+          // flag=true
         })
+        .then(() => {
+          toast.success("Submitted succesfully", {
+            position: "top-center",
+          });
+          console.log("checkkkkk");
+        })
+
         .catch((error) => {
           console.error(error);
         });
     }
+
+    // if(flag){
+
+    // }
   };
 
   return (
     <>
-      {/* {/ {loading && <Spinner />} /} */}
       {loading && <LinearIndeterminate />}
       <Box className={classes.flexBox}>
         <Box className={classes.parentBox}>
@@ -347,7 +302,7 @@ const UploadData = (props) => {
           </Box>
         </Box>
       </Box>
-
+      <ToastContainer />
       {snackbar.open && (
         <Snackbar
           open={snackbar.open}

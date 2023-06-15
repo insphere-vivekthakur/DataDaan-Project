@@ -18,7 +18,7 @@ import bhashiniLogo from "../../assets/Bhashini_en.svg";
 
 import { useHistory } from "react-router-dom";
 import DownIcon from "@material-ui/icons/ArrowDropDown";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DataDaan from "../../assets/DataDaan.png";
 import AlertDialog from "../container/UploadData/Term&ConditionModal";
 import UploadData from "../container/UploadData";
@@ -62,10 +62,10 @@ const Header = (props) => {
     setAnchorElLogout(e.currentTarget);
   };
 
-  useEffect(() => {
-    // const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    // setUsername("Anamika");
-  }, []);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  // useEffect(() => {
+  //   setUsername("Anamika");
+  // }, []);
 
   const handleMenuTypeClick = (value) => {
     if (value === "contribution") {
@@ -94,7 +94,7 @@ const Header = (props) => {
             flexItem
             className={classes.logoDivider}
           />
-          <Link href="https://bhashini.gov.in/en/">
+          <Link href="https://bhashini.gov.in/bhashadaan/">
             <img
               className={`${classes.DataDaanLogo} ${classes.bhashiniLogo}`}
               src={DataDaan}
@@ -173,7 +173,9 @@ const Header = (props) => {
                 color="textPrimary"
                 className={classes.profileName}
               >
-                {username}
+                {/* {username} */}
+                {/* Anamika */}
+                {userInfo.user[0].email}
               </Typography>
               <DownIcon color="action" />
             </Button>

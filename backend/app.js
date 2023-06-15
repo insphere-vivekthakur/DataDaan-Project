@@ -5,7 +5,12 @@ const file = require("./routes/file");
 const bodyParser = require("body-parser");
 
 const uri = process.env.URI;
-mongoose.connect(uri, { useNewUrlParser: true });
+const connectionpOptions = {
+  dbName: `bhashiniDatadaan`,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+mongoose.connect(uri,connectionpOptions );
 const db = mongoose.connection;
 
 db.on("error", function (err) {
@@ -15,7 +20,6 @@ db.on("error", function (err) {
 db.once("open", function () {
   console.log("handshake established");
 });
-
 
 const app = express();
 const port = process.env.PORT;
