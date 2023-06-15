@@ -5,19 +5,14 @@ import { useState } from "react";
 import FileUpload from "../../components/FileUpload";
 import GlobalStyles from "../../styles/Styles";
 import { useHistory } from "react-router-dom";
-// import FileUploadAPI from "../../../actions/apis/FileUpload/FileUpload";
 import Snackbar from "../../components/Snackbar";
 import LinearIndeterminate from "../../components/LinearProgress";
 import TermsAndConditionsModal from "./TermsAndConditionsModal";
-// import TermsAndConditions from "../../../actions/apis/TermsAndConditions/GetTermsAndConditions";
 import { textFields } from "../../../utils/utils";
-// import axios from "axios";
-
 import { useFormik } from "formik";
 import { RegisterSchema } from "../../schemas";
-
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialValues = {
   name: "",
@@ -125,13 +120,15 @@ const UploadData = (props) => {
       contactNumber: "",
     });
   };
-  // const notify = () => toast("Wow so easy!");
+
   // let flag= false
   const handleSubmitUpload = async (event) => {
+    toast.success("Submitted succesfully , visit My contribution", {
+      position: "top-center",
+    });
+
     event.preventDefault();
-    // toast.success("Submitted succesfully" ,{
-    //   position:"top-center"
-    // })
+
     console.log("checkkkkk");
     console.log(meta, zip, "check meta data");
     const formData = new FormData();
@@ -164,15 +161,19 @@ const UploadData = (props) => {
         body: formData,
       })
         .then((response) => response.json())
+
         .then((data) => {
           console.log(data);
           setID(data[0]._id);
           // flag=true
-          // toast.success("Submitted succesfully" ,{
-          //   position:"top-center"
-          // })
-          // console.log("checkkkkk");
         })
+        .then(() => {
+          toast.success("Submitted succesfully", {
+            position: "top-center",
+          });
+          console.log("checkkkkk");
+        })
+
         .catch((error) => {
           console.error(error);
         });
@@ -185,7 +186,6 @@ const UploadData = (props) => {
 
   return (
     <>
-      {/* {/ {loading && <Spinner />} /} */}
       {loading && <LinearIndeterminate />}
       <Box className={classes.flexBox}>
         <Box className={classes.parentBox}>
@@ -302,7 +302,7 @@ const UploadData = (props) => {
           </Box>
         </Box>
       </Box>
-      {/* <ToastContainer /> */}
+      <ToastContainer />
       {snackbar.open && (
         <Snackbar
           open={snackbar.open}

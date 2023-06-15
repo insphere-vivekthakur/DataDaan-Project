@@ -20,14 +20,14 @@ code {
   gap: 20px;
   flex-direction: column;
 }
-/* .MuiTypography-colorTextSecondary-125 {
+.MuiTypography-colorTextSecondary-125 {
   color: rgba(0, 0, 0, 0.87) !important;
   font-size: 14px !important;
-} */
+}
 
 
-.modaltext{
+/* .modaltext{
   color: rgba(0, 0, 0, 0.87) ;
   font-size: 12px;
 
-}
+} */
