@@ -5,23 +5,36 @@ const File = require("../models/file");
 const fs = require("fs");
 const { promisify } = require("util");
 const unlinkAsync = promisify(fs.unlink);
+var multerAzure = require('multer-azure');
+const { error } = require("console");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Set the destination folder for uploaded files
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname); // Set the file name
-  },
-});
 
-const upload = multer({ storage: storage });
+let organization = Math.random().toString().replace(/0\./, '');
 
-//Upload file
+const azureStorageConfig = multerAzure({
+  connectionString: process.env.AZURE_CONNECTION_STRING, //Connection String for azure storage account, this one is prefered if you specified, fallback to account and key if not.
+  account: process.env.AZURE_STORAGE_RESOURCE_NAME, //The name of the Azure storage account
+  key: process.env.AZURE_STORAGE_KEY, //A key listed under Access keys in the storage account pane
+  container: process.env.AZURE_STORAGE_RESOURCE_NAME,  //Any container name, it will be created if it doesn't exist
+  blobPathResolver: (_req, file, callback) => {
+    let path;
+    if (_req.body.pathToFile) {
+      path = `${organization}/${_req.body.pathToFile}/${file.originalname}`
+    } else {
+      path = `${organization}/${file.originalname}`;
+    }
+    callback(null, path);
+  }
+})
+
+var upload = multer({
+  storage: azureStorageConfig
+})
+
 
 router.post(
   "/upload",
-  upload.fields([
+  upload.any([
     {
       name: "file",
       maxCount: 1,
@@ -32,38 +45,37 @@ router.post(
     },
   ]),
   async function (req, res, next) {
+    // console.log(req);
+    console.log(req.files);
+
     try {
       const {
-        ID,
+        submittedBy,
         organizationName,
-        officerName,
+        designatedOfficerName,
         designation,
         emailId,
-        contactNumber,
-        isIndividual,
+        contactNumber
       } = req.body;
 
-      const files = [];
-
-      if (req.files.file) {
-        const newFile = new File({
-          path: req.files.file[0].path,
-          mediaFile: req.files.file[0].originalname,
-          ID,
-          organizationName,
-          officerName,
-          designation,
-          emailId,
-          contactNumber,
-          isIndividual,
-        });
-        newFile.readmeText = req.files.readmeText[0].filename;
-        const file = await File.addFile(newFile);
-        files.push(file);
-      }
-
-      res.send(files);
+      const newFile = new File({
+        dataFile: req.files[0].fieldname === 'file' ? req.files[0].originalname : req.files[1].originalname,
+        dataFileUrl: req.files[0].fieldname === 'file' ? req.files[0].url : req.files[1].url,
+        readmeText: req.files[0].fieldname === 'readmeText' ? req.files[0].originalname : req.files[1].originalname,
+        readmeTextUrl: req.files[0].fieldname === 'file' ? req.files[0].url : req.files[1].url,
+        submittedBy,
+        organizationName,
+        designatedOfficerName,
+        designation,
+        emailId,
+        contactNumber
+      });
+      let userStore=newFile.save();
+      res.status(200).send({
+        message:"upload success"
+      });
     } catch (err) {
+      console.log("error", error);
       await unlinkAsync(req.file.path);
       res.status(400).send({ succes: false, msg: err.message });
     }

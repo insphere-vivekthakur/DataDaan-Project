@@ -10,6 +10,7 @@
 /backend/node_modules
 /backend/.pnp
 /backend/.pnp.js
+/backend/.env
 
 /backend/uploads*
 # testing

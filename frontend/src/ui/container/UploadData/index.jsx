@@ -123,9 +123,6 @@ const UploadData = (props) => {
 
   // let flag= false
   const handleSubmitUpload = async (event) => {
-    toast.success("Submitted succesfully , visit My contribution", {
-      position: "top-center",
-    });
 
     event.preventDefault();
 
@@ -294,7 +291,7 @@ const UploadData = (props) => {
                 color="primary"
                 onClick={handleSubmitUpload}
                 className={classes.submitBtn}
-                // disabled={disableSubmit()}
+              // disabled={disableSubmit()}
               >
                 Submit
               </Button>
