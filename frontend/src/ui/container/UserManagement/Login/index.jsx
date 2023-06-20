@@ -79,7 +79,7 @@ const Login = (props) => {
     // })
     // const apiendpoint = `http://localhost:4500/login`;
     const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.login}`;
-    debugger
+    // debugger
     const { email, password } = values;
     // const body = { username: email, password };
     axios.post(apiendpoint, { email: email, password:password })

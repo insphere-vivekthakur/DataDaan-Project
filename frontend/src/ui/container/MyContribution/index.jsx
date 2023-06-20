@@ -13,6 +13,8 @@ import {
   TableBody,
 } from "@material-ui/core";
 import axios from "axios";
+import config from "../../../configs/config";
+import apiendpoints from "../../../configs/apiendpoints";
 
 const MyContribution = (props) => {
   const { ID } = props;
@@ -20,9 +22,11 @@ const MyContribution = (props) => {
 
   const [data, setData] = useState([]);
   const getData = (ID) => {
+    // const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.getUser}`;
     try {
       axios
         .get(`http://localhost:4500/getUser/${ID}`)
+        // .get(`${apiendpoint}${ID}`)
         .then((res) => {
           console.log("testing", res);
           setData(res.data);
