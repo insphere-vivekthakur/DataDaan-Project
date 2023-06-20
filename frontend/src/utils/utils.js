@@ -24,4 +24,5 @@ export const textFields = [
     name: "contactNumber",
     type: "number",
   },
+
 ];

@@ -22,6 +22,10 @@ import { useHistory } from "react-router-dom";
 // import apiEndPoint from "../../../../configs/apiendpoints";
 import Snackbar from "../../../components/Snackbar";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import config from "../../../../configs/config";
+import apiendpoints from "../../../../configs/apiendpoints";
 
 const Login = (props) => {
   const [values, setValues] = useState({
@@ -66,11 +70,20 @@ const Login = (props) => {
   };
 
   const handleSubmit = async () => {
-    const apiendpoint = `http://localhost:4500/login`;
+
+    // setSnackbarInfo({
+    //   ...snackbar,
+    //   open: true,
+    //   message: "user details is invalid" ,
+    //   variant: "error",
+    // })
+    // const apiendpoint = `http://localhost:4500/login`;
+    const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.login}`;
+    debugger
     const { email, password } = values;
     // const body = { username: email, password };
     axios.post(apiendpoint, { email: email, password:password })
-      .then(async (res) => {
+      .then((res) => {
         console.log("test res",res);
         // const rsp_data = await res.json();
         console.log("test res",res);
@@ -79,11 +92,32 @@ const Login = (props) => {
           localStorage.setItem("userInfo", JSON.stringify(res.data));
           localStorage.removeItem("acceptedTnC");
           history.push(`/datadaan/my-contribution/`);
-        } else {
-          return Promise.reject(res.data);
+        } 
+        else {
+
+         
+          // setSnackbarInfo({
+          //   ...snackbar,
+          //   open: true,
+          //   message: "user details is invalid" ,
+          //   variant: "error",
+          // })
+
+          alert("user details is invalid")
+
+          // toast.warning("Mandatory Fields are empty", {
+          //   position: "top-center",autoClose: 2000,
+          // });
+          // return Promise.reject(res.data);
+          
         }
       })
       .catch((err) => {
+        history.push(`/`);
+        alert("details is invalid") 
+        //  toast.warning("Mandatory Fields are empty", {
+        //     position: "top-center",autoClose: 2000,
+        //   });
         setLoading(false);
         setSnackbarInfo({
           ...snackbar,
@@ -105,6 +139,7 @@ const Login = (props) => {
 
     return (
       <>
+      <ToastContainer/>
         <Grid container className={classes.loginGrid}>
           <Typography variant="h4">Sign in</Typography>
           <form className={classes.root} autoComplete="off">
@@ -177,6 +212,7 @@ const Login = (props) => {
             </Button>
           </form>
         </Grid>
+          
         {snackbar.open && (
           <Snackbar
             open={snackbar.open}

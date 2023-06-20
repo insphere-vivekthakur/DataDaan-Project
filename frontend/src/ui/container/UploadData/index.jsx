@@ -13,6 +13,8 @@ import { useFormik } from "formik";
 import { RegisterSchema } from "../../schemas";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import config from "../../../configs/config";
+import apiendpoints from "../../../configs/apiendpoints";
 
 const initialValues = {
   name: "",
@@ -121,12 +123,14 @@ const UploadData = (props) => {
     });
   };
 
+  const validateEmail = (email) => {
+    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return regex.test(email);
+  };
+  // let ans = validateEmail("form");
+  // console.log("ans checkkkk", ans);
   // let flag= false
   const handleSubmitUpload = async (event) => {
-    toast.success("Submitted succesfully , visit My contribution", {
-      position: "top-center",
-    });
-
     event.preventDefault();
 
     console.log("checkkkkk");
@@ -149,14 +153,27 @@ const UploadData = (props) => {
       userDetails.emailId === "" ||
       userDetails.contactNumber === ""
     ) {
-      alert("Fields are empty");
+      // alert("Fields are empty");
+      toast.warning("Mandatory Fields are empty", {
+        position: "top-center",
+        autoClose: 2000,
+      });
     } else if (
       userDetails.contactNumber.length > 10 ||
       userDetails.contactNumber.length < 10
     ) {
-      alert("Phone number is invalid, type 10 digit no.");
+      toast.warning("Enter 10 digit no.", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    } else if (!validateEmail(userDetails.emailId)) {
+      toast.warning("Email not valid", {
+        position: "top-center",
+        autoClose: 2000,
+      });
     } else {
-      await fetch("http://localhost:4500/upload", {
+      const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.upload}`;
+      await fetch(apiendpoint, {
         method: "POST",
         body: formData,
       })
@@ -178,10 +195,6 @@ const UploadData = (props) => {
           console.error(error);
         });
     }
-
-    // if(flag){
-
-    // }
   };
 
   return (

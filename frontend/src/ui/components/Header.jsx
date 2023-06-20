@@ -176,6 +176,8 @@ const Header = (props) => {
                 {/* {username} */}
                 {/* Anamika */}
                 {userInfo.user[0].email}
+
+
               </Typography>
               <DownIcon color="action" />
             </Button>

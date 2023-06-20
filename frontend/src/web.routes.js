@@ -47,6 +47,7 @@ const PrivateRoute = ({
 
 export default function App() {
   const [ID, setID]= useState("")
+  console.log("ID Check", ID);
   return (
     <BrowserRouter history={history} basename="/">
       <Switch>

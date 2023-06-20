@@ -42,36 +42,48 @@ const MyContribution = (props) => {
   return (
     <MuiThemeProvider theme={Theme}>
       {/* <MUIDataTable data={tableData} columns={columns} options={options} /> */}
+      {data.length > 0 ? (
+        <div>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Created Timestamp</TableCell>
+                <TableCell>Upload id</TableCell>
+                <TableCell>Media File</TableCell>
+                <TableCell>Meta File</TableCell>
+                <TableCell>Permission</TableCell>
+                <TableCell>Upload Status</TableCell>
+              </TableRow>
+            </TableHead>
 
-      <div>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Created Timstamp</TableCell>
-              <TableCell>Upload id</TableCell>
-              <TableCell>Media File</TableCell>
-              <TableCell>Meta File</TableCell>
-              <TableCell>Permission</TableCell>
-              <TableCell>Upload Status</TableCell>
-            </TableRow>
-          </TableHead>
-
-          {data?.map((value, index) => {
-            return (
-              <TableBody>
-                <TableRow>
-                  <TableCell>{value.timestamp}</TableCell>
-                  <TableCell>{value._id}</TableCell>
-                  <TableCell>{value.mediaFile}</TableCell>
-                  <TableCell>{value.readmeText}</TableCell>
-                  <TableCell>Only use</TableCell>
-                  <TableCell>Completed</TableCell>
-                </TableRow>
-              </TableBody>
-            );
-          })}
-        </Table>
-      </div>
+            {data?.map((value, index) => {
+              return (
+                <TableBody>
+                  <TableRow>
+                    <TableCell>{value.timestamp}</TableCell>
+                    <TableCell>{value._id}</TableCell>
+                    <TableCell>{value.mediaFile}</TableCell>
+                    <TableCell>{value.readmeText}</TableCell>
+                    <TableCell>Only use</TableCell>
+                    <TableCell>Completed</TableCell>
+                  </TableRow>
+                </TableBody>
+              );
+            })}
+          </Table>
+        </div>
+      ) : (
+        <div className="emptyContainer">
+          <div className="emptyContainer__main">
+            <div className="u-icon">Icon here</div>
+            <div className="heading">No data added yet</div>
+            <p>
+              Currently you haven't added any data. To contribute pleaes go to
+              upload.
+            </p>
+          </div>
+        </div>
+      )}
     </MuiThemeProvider>
   );
 };
