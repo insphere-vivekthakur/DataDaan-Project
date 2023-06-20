@@ -22,6 +22,8 @@ import { useHistory } from "react-router-dom";
 // import apiEndPoint from "../../../../configs/apiendpoints";
 import Snackbar from "../../../components/Snackbar";
 import axios from "axios";
+import config from "../../../../configs/config";
+import apiendpoints from "../../../../configs/apiendpoints";
 
 const Login = (props) => {
   const [values, setValues] = useState({
@@ -66,7 +68,8 @@ const Login = (props) => {
   };
 
   const handleSubmit = async () => {
-    const apiendpoint = `http://localhost:4500/login`;
+    // const apiendpoint = `http://localhost:4500/login`;
+    const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.login}`;
     const { email, password } = values;
     // const body = { username: email, password };
     axios.post(apiendpoint, { email: email, password:password })

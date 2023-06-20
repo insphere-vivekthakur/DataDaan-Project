@@ -13,6 +13,8 @@ import { useFormik } from "formik";
 import { RegisterSchema } from "../../schemas";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import config from "../../../configs/config";
+import apiendpoints from "../../../configs/apiendpoints";
 
 const initialValues = {
   name: "",
@@ -153,7 +155,8 @@ const UploadData = (props) => {
     ) {
       alert("Phone number is invalid, type 10 digit no.");
     } else {
-      await fetch("http://localhost:4500/upload", {
+      const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.upload}`;
+      await fetch(apiendpoint, {
         method: "POST",
         body: formData,
       })

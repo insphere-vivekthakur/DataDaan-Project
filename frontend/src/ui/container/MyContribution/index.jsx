@@ -21,6 +21,7 @@ const MyContribution = (props) => {
   const [data, setData] = useState([]);
   const getData = (ID) => {
     try {
+      
       axios
         .get(`http://localhost:4500/getUser/${ID}`)
         .then((res) => {
