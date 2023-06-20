@@ -307,7 +307,7 @@ const UploadData = (props) => {
                 color="primary"
                 onClick={handleSubmitUpload}
                 className={classes.submitBtn}
-                // disabled={disableSubmit()}
+              // disabled={disableSubmit()}
               >
                 Submit
               </Button>
