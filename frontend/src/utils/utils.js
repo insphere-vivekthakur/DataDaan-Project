@@ -6,7 +6,7 @@ export const textFields = [
   },
   {
     label: "Designated Officer Name",
-    name: "officerName",
+    name: "designatedOfficerName",
     type: "text",
   },
   {

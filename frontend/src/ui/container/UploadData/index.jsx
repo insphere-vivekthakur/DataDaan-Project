@@ -49,7 +49,7 @@ const UploadData = (props) => {
   const [checkbox, setCheckbox] = useState(false);
   const [userDetails, setUserDetails] = useState({
     organizationName: "",
-    officerName: "",
+    Name: "",
     designation: "",
     emailId: "",
     contactNumber: "",
@@ -116,7 +116,7 @@ const UploadData = (props) => {
     setZip([]);
     setUserDetails({
       organizationName: "",
-      officerName: "",
+      designatedOfficerName: "",
       designation: "",
       emailId: "",
       contactNumber: "",
@@ -139,7 +139,7 @@ const UploadData = (props) => {
     formData.append("file", zip[0]);
     formData.append("readmeText", meta[0]);
     formData.append("organizationName", userDetails?.organizationName);
-    formData.append("officerName", userDetails?.officerName);
+    formData.append("designatedOfficerName", userDetails?.designatedOfficerName);
     formData.append("designation", userDetails?.designation);
     formData.append("emailId", userDetails?.emailId);
     formData.append("contactNumber", userDetails?.contactNumber);
@@ -148,7 +148,7 @@ const UploadData = (props) => {
 
     if (
       userDetails.organizationName === "" ||
-      userDetails.officerName === "" ||
+      userDetails.designatedOfficerName === "" ||
       userDetails.designation === "" ||
       userDetails.emailId === "" ||
       userDetails.contactNumber === ""
