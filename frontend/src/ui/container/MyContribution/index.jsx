@@ -24,6 +24,7 @@ const MyContribution = (props) => {
   const getData = (ID) => {
     const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.getUser}`;
     try {
+      
       axios
         // .get(`http://localhost:4500/getUser/${ID}`)
         .get(`${apiendpoint}${ID}`)
