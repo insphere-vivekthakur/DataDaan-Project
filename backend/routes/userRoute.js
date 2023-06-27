@@ -12,7 +12,7 @@ route.use(bodyParser.json());
 route.use(cors())
 
 route.post('/login', userController.userLogin);
-route.post("/orgRegister", userController.createUser);
+route.post("/register", userController.createUser);
 route.get('/getUser/:id', userController.getfileDetails);
 
 

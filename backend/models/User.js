@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
- firstname: {
+  firstname: {
     type: String,
     required: true,
   },
@@ -26,22 +26,42 @@ const userSchema = mongoose.Schema({
       },
     ],
   },
-  phone: {
-    type: String,
-    required: true,
-  },
   mobile: {
     type: String,
     required: true,
   },
+  address1:{
+    type: String,
+    required: false,
+  },
+  address1:{
+    type: String,
+    required: false,
+  },
+  address2:{
+    type: String,
+    required: false,
+  },
+  address3:{
+    type: String,
+    required: false,
+  },
+  city:{
+    type: String,
+    required: false,
+  },
+  landmark:{
+    type: String,
+    required: false,
+  },
+  pincode:{
+    type: String,
+    required: false,
+  },
   token: {
     type: String,
     default: "",
-  },
-  organization: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Organization",
-  },
+  }
 });
 
 const User = mongoose.model("User", userSchema);

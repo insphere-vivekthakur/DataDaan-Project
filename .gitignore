@@ -12,7 +12,7 @@
 /backend/.pnp.js
 /backend/.env
 
-/backend/uploads*
+/backend/uploads
 # testing
 /frontend/coverage
 /backend/coverage

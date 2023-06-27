@@ -1,4 +1,4 @@
-const organizationDetail = require("../models/Organisation");
+// const organizationDetail = require("../models/Organisation");
 const File = require("../models/file");
 const User = require("../models/User");
 const JWT = require("../utils/JWT.js");
@@ -13,63 +13,58 @@ const securePassword = (password) =>
 const passwordMatch = (enteredPassword, userPassword) =>
   bcrypt.compare(enteredPassword, String(userPassword).trim());
 
-const getToken = (userId) =>
-  JWT.createtoken({ _id: userId }, process.env.TOKEN_SECRET);
+const getToken = (userId) => JWT.createtoken({ _id: userId }, process.env.TOKEN_SECRET);
 
 const createUser = async (req, res) => {
-  
+
   const {
-    name,
+    firstname,
+    lastname,
     email,
-     password,
-    phone,
-    permanentAddress,
-    communicationAddress,
-    userDetail,
+    password,
+    mobile,
+    address1,
+    address2,
+    address3,
+    city,
+    landmark,
+    pincode
   } = req.body;
-  console.log(req.body)
+  // console.log(req.body)
   const spassword = await securePassword(password);
 
-  const organization = new organizationDetail({
-    name,
-    email,
-    password:spassword,
-    phone,
-    permanentAddress,
-    communicationAddress,
+
+  const userData = new User({
+    firstname: firstname,
+    lastname: lastname,
+    email: email,
+    password: spassword,
+    mobile: mobile,
+    address1: address1,
+    address2: address2,
+    address3: address3,
+    city: city,
+    landmark: landmark,
+    pincode: pincode
   });
-  organization.token = getToken(organization._id)
-  console.log(organization)
 
-  const users = [];
-  for (const user of userDetail) {
-    const data = new User({
-      firstname:user.firstname,
-      lastname:user.lastname,
-      email:user.email,
-      mobile:user.mobile,
-      phone:user.phone,
-      organization: organization._id,
+  let result = await userData.save();
+  if (result) {
+    await User.findByIdAndUpdate(result._id, { token: getToken(result._id) });
+    const updatedData = await User.findById(result._id).exec();
+    return res.status(200).send({
+      code: 200,
+      message: "Register Success",
+      data: updatedData
     });
-    data.token = getToken(data._id)
-    users.push(data);
-    console.log(users)
+  } else {
+    return res.status(200).send({
+      code: 200,
+      message: "Register Success",
+      data: result
+    });
   }
-
-  organization.users = users.map((user) => user._id);
-  
-  Promise.all([organization.save(), ...users.map((user) => user.save())])
-    .then(() => {
-      console.log("Organization and users saved successfully");
-      res.status(201).json({"success":"true","organization":organization,"users":users});
-    })
-    .catch((err) => {
-      console.error("Error saving organization and users:", err);
-      res
-        .status(500)
-        .json({ error: "this email is already exists" });
-    });
-};
+}
 
 
 ////////Login 
@@ -79,40 +74,40 @@ const userLogin = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.aggregate(
-   [
-   
-    {$lookup:{from:"organisationdetails",localField:"organization",foreignField:"_id",as:"organizationObj" }},
-    {$unwind:{path:"$organizationObj"}},
-    {$match:{$or:[{"email":email},{"organizationObj.email":email}]}},
-    // {$project:{"document": "$$ROOT","organizationObj":1}},
-    
+    [
 
-   ]
+      { $lookup: { from: "organisationdetails", localField: "organization", foreignField: "_id", as: "organizationObj" } },
+      { $unwind: { path: "$organizationObj" } },
+      { $match: { $or: [{ "email": email }, { "organizationObj.email": email }] } },
+      // {$project:{"document": "$$ROOT","organizationObj":1}},
+
+
+    ]
   )
   console.log(user)
 
-  if(!user||!user.length){
-    return res.json({"response":"user not found"})
+  if (!user || !user.length) {
+    return res.json({ "response": "user not found" })
   }
 
   console.log(user)
- const data =await passwordMatch(password,user[0].organizationObj.password)
- if(data){
-  delete user[0].organizationObj.password
-  delete user[0].password
-  return res.json({"response":"login succesfull",user:user})
- }
- else{
-  return res.json({"response":"login incorrect"})
- }
+  const data = await passwordMatch(password, user[0].organizationObj.password)
+  if (data) {
+    delete user[0].organizationObj.password
+    delete user[0].password
+    return res.json({ "response": "login succesfull", user: user })
+  }
+  else {
+    return res.json({ "response": "login incorrect" })
+  }
 
 };
 
 ///
-const getfileDetails= async (req, res) => {
+const getfileDetails = async (req, res) => {
   try {
- 
-  const user = await File.find(new ObjectId(req.params.id))
+
+    const user = await File.find(new ObjectId(req.params.id))
     if (user) {
       res.json(user);
     } else {
