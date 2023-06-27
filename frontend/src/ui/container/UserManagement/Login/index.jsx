@@ -84,16 +84,13 @@ const Login = (props) => {
     // const body = { username: email, password };
     axios.post(apiendpoint, { email: email, password:password })
       .then((res) => {
-        console.log("test res",res);
-        // const rsp_data = await res.json();
-        console.log("test res",res);
-        console.log("test res",res.data);
-        if (res.statusText==="OK") {
-          localStorage.setItem("userInfo", JSON.stringify(res.data));
+
+        
+        if (res.data.success) {
+          localStorage.setItem("userInfo", JSON.stringify(res.data.data));
           localStorage.removeItem("acceptedTnC");
           history.push(`/datadaan/my-contribution/`);
-        } 
-        else {
+        } else {
 
          
           // setSnackbarInfo({
@@ -101,20 +98,12 @@ const Login = (props) => {
           //   open: true,
           //   message: "user details is invalid" ,
           //   variant: "error",
-          // })
-
-          alert("user details is invalid")
-
-          // toast.warning("Mandatory Fields are empty", {
-          //   position: "top-center",autoClose: 2000,
-          // });
-          // return Promise.reject(res.data);
-          
+          // })          
         }
-      })
-      .catch((err) => {
+      }).catch((err) => {
         history.push(`/`);
-        alert("details is invalid") 
+        alert("details is invalid catch");
+        console.log(err); 
         //  toast.warning("Mandatory Fields are empty", {
         //     position: "top-center",autoClose: 2000,
         //   });

@@ -32,6 +32,7 @@ var upload = multer({
 })
 
 
+
 router.post(
   "/upload",
   upload.any([
@@ -46,8 +47,7 @@ router.post(
   ]),
   async function (req, res, next) {
     // console.log(req);
-    console.log(req.files);
-
+    // console.log(req);
     try {
       const {
         submittedBy,
@@ -70,13 +70,17 @@ router.post(
         emailId,
         contactNumber
       });
-      let userStore=newFile.save();
+      let fileData = await newFile.save();
+
+      console.log(fileData);
       res.status(200).send({
-        message:"upload success"
+        code: 200,
+        message: "upload success",
+        data: fileData
       });
     } catch (err) {
       console.log("error", error);
-      await unlinkAsync(req.file.path);
+      // await unlinkAsync(req.file.path);
       res.status(400).send({ succes: false, msg: err.message });
     }
   }

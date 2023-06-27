@@ -13,7 +13,8 @@ route.use(cors())
 
 route.post('/login', userController.userLogin);
 route.post("/register", userController.createUser);
-route.get('/getUser/:id', userController.getfileDetails);
+route.get('/getUser/:id', userController.getFileDetails);
+route.get('/getUploadedData/:id', userController.getUploadedData);
 
 
 

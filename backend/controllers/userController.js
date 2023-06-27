@@ -29,47 +29,54 @@ const createUser = async (req, res) => {
       landmark,
       pincode,
     } = req.body;
-    // console.log(req.body)
-    const spassword = await securePassword(password);
 
-    const userData = new User({
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      password: spassword,
-      mobile: mobile,
-      address1: address1,
-      address2: address2,
-      address3: address3,
-      city: city,
-      landmark: landmark,
-      pincode: pincode,
-    });
-
-    let result = await userData.save();
-    if (result) {
-      res
-        .status(200)
-        .send({ success: true, msg: "this email is already exists" });
-    }
-    if (result) {
-      await User.findByIdAndUpdate(result._id, { token: getToken(result._id) });
-      const updatedData = await User.findById(result._id).exec();
-      return res.status(200).send({
-        code: 200,
-        message: "Register Success",
-        data: updatedData,
-      });
-    } else {
+    let isUser = await User.findOne({ $or: [{ email: email }, { mobile: mobile }] }).exec();
+    if (isUser && isUser !== null) {
       return res.status(400).send({
         code: 400,
-        message: "email already exist",
+        message: "email/mobile already exist",
         data: {},
       });
+    } else {
+      console.log(isUser, 'user doesnot exist');
+      const spassword = await securePassword(password);
+
+      const userData = new User({
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        password: spassword,
+        mobile: mobile,
+        address1: address1,
+        address2: address2,
+        address3: address3,
+        city: city,
+        landmark: landmark,
+        pincode: pincode,
+      });
+
+      let result = await userData.save();
+      if (result) {
+        await User.findByIdAndUpdate(result._id, { token: getToken(result._id) });
+        const updatedData = await User.findById(result._id).exec();
+        return res.status(200).send({
+          code: 200,
+          message: "Register Success",
+          status:"success",
+          data: updatedData,
+        });
+      } else {
+        return res.status(400).send({
+          code: 400,
+          message: "something went wrong",
+          status:"failed",
+          data: {},
+        });
+      }
     }
   } catch (error) {
     const errorMessage = error.message || "Internal Server Error";
-    response.status(500).json({ status: 500, message: errorMessage });
+    res.status(500).json({ status: 500, message: errorMessage });
   }
 };
 
@@ -100,7 +107,7 @@ const userLogin = async (req, res) => {
               city: userData.city,
               landmark: userData.landmark,
               pincode: userData.pincode,
-              token:userData.token
+              token: userData.token
             };
             const response = {
               success: true,
@@ -117,7 +124,7 @@ const userLogin = async (req, res) => {
         }
       });
       // console.log(passwordMatch)
-     
+
     } else {
       res
         .status(200)
@@ -129,9 +136,9 @@ const userLogin = async (req, res) => {
 };
 
 ///
-const getfileDetails = async (req, res) => {
+const getFileDetails = async (req, res) => {
   try {
-    const user = await File.find(new ObjectId(req.params.id));
+    const user = await File.find({ submittedBy: new ObjectId(req.params.id) });
     if (user) {
       res.json(user);
     } else {
@@ -143,8 +150,47 @@ const getfileDetails = async (req, res) => {
   }
 };
 
+const getUploadedData = async (req, res) => {
+  try {
+    const data = await File.find({ submittedBy: new ObjectId(req.params.id) });
+    if (data) {
+      return res.status(200).send({
+        code: 200,
+        message: "All uploaded data",
+        data: data,
+      });
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (err) {
+    console.error("Error retrieving user:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+
+const getSearchedData = async (req, res) => {
+  try {
+    const data = await File.find({ submittedBy: new ObjectId(req.params.id) });
+    if (data) {
+      return res.status(200).send({
+        code: 200,
+        message: "All uploaded data",
+        data: data,
+      });
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (err) {
+    console.error("Error retrieving user:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+
 module.exports = {
   createUser,
   userLogin,
-  getfileDetails,
+  getFileDetails,
+  getUploadedData
 };

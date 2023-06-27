@@ -21,6 +21,7 @@ const MyContribution = (props) => {
   console.log("check param", ID);
 
   const [data, setData] = useState([]);
+  
   const getData = (ID) => {
     const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.getUser}`;
     try {
