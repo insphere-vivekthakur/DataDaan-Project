@@ -7,26 +7,10 @@ const { promisify } = require("util");
 const unlinkAsync = promisify(fs.unlink);
 var multerAzure = require('multer-azure');
 const { error } = require("console");
-let isBlobNameUpdate = false;
 // const { v4: uuidv4 } = require('uuid');
 
 // let organization=uuidv4();
-
 let organization = Math.random().toString().replace(/0\./, '');
-
-const getBlobName = (isUpdate) => {
-  if (isUpdate) {
-    return Math.random().toString().replace(/0\./, '');
-  } else {
-    return organization;
-  }
-}
-
-// console.log(getBlobName(true), "getBlobName(true)");
-// console.log(getBlobName(false), "getBlobName(false)");
-// console.log(organization, "organization");
-
-// let organization = Math.random().toString().replace(/0\./, '');
 
 const azureStorageConfig = multerAzure({
   connectionString: process.env.AZURE_CONNECTION_STRING, //Connection String for azure storage account, this one is prefered if you specified, fallback to account and key if not.
@@ -34,18 +18,19 @@ const azureStorageConfig = multerAzure({
   key: process.env.AZURE_STORAGE_KEY, //A key listed under Access keys in the storage account pane
   container: process.env.AZURE_STORAGE_RESOURCE_NAME,  //Any container name, it will be created if it doesn't exist
   blobPathResolver: (_req, file, callback) => {
-    let path;
-    if (_req.body.pathToFile) {
-      path = `${getBlobName(isBlobNameUpdate)}/${_req.body.pathToFile}/${file.originalname}`
-    } else {
-      path = `${getBlobName(isBlobNameUpdate)}/${file.originalname}`;
-    }
-    console.log(path, "path");
+    // let path;
+    // if (_req.body.folderPath) {
+    //   path = `${organization}/${_req.body.folderPath}/${file.originalname}`
+    // } else {
+    //   path = `${organization}/${file.originalname}`;
+    // }
+    const path=`$${_req.body.folderPath}/${file.originalname}`
+    // console.log(path, "path");
     callback(null, path);
   }
 })
 
-var upload = multer({
+let upload = multer({
   storage: azureStorageConfig
 })
 
@@ -73,14 +58,15 @@ router.post(
         designatedOfficerName,
         designation,
         emailId,
-        contactNumber
+        contactNumber,
+        folderPath
       } = req.body;
-      // console.log(req.files);
+      // console.log(req);
       const newFile = new File({
         dataFile: req.files[0].fieldname === 'file' ? req.files[0].originalname : req.files[1].originalname,
         dataFileUrl: req.files[0].fieldname === 'file' ? req.files[0].url : req.files[1].url,
         readmeText: req.files[0].fieldname === 'readmeText' ? req.files[0].originalname : req.files[1].originalname,
-        readmeTextUrl: req.files[0].fieldname === 'file' ? req.files[0].url : req.files[1].url,
+        readmeTextUrl: req.files[0].fieldname === 'readmeText' ? req.files[0].url : req.files[1].url,
         folderName: req.files[0].blobPath.split("/")[0],
         submittedBy,
         organizationName,
@@ -89,8 +75,8 @@ router.post(
         emailId,
         contactNumber
       });
+
       let fileData = await newFile.save();
-      isBlobNameUpdate = true;
       // console.log(fileData);
       res.status(200).send({
         code: 200,

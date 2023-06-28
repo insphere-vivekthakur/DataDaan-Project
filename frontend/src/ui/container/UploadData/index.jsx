@@ -138,6 +138,7 @@ const UploadData = (props) => {
     // console.log("checkkkkk");
     // console.log(meta, zip, "check meta data");
     const formData = new FormData();
+    formData.append("folderPath", Date.now())
     formData.append("file", zip[0]);
     formData.append("readmeText", meta[0]);
     formData.append("submittedBy", userInfo._id);
