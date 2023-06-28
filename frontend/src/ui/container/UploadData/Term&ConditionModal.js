@@ -18,13 +18,13 @@ export default function AlertDialog({ hide, onClose, handleMenuTypeClick }) {
     // setIsDisabled(false);
     setIsDisabled(!isDisabled);
   };
-  console.log("checking modal");
+  // console.log("checking modal");
 
   const handleChange = (e) => {
     setRadioInput({ ...radioInput, [e.target.name]: e.target.value });
     setIsradioSelected(false);
   };
-  console.log("checking radio", setRadioInput, isradioSelected);
+  // console.log("checking radio", setRadioInput, isradioSelected);
   return (
     <div>
       <Dialog

@@ -38,7 +38,7 @@ const createUser = async (req, res) => {
         data: {},
       });
     } else {
-      console.log(isUser, 'user doesnot exist');
+      // console.log(isUser, 'user doesnot exist');
       const spassword = await securePassword(password);
 
       const userData = new User({
@@ -96,6 +96,7 @@ const userLogin = async (req, res) => {
         } else {
           if (success) {
             const userResult = {
+              _id:userData._id,
               firstname: userData.firstname,
               lastname: userData.lastname,
               email: userData.email,
@@ -120,7 +121,7 @@ const userLogin = async (req, res) => {
               .status(200)
               .send({ success: false, msg: "login details are incorrect" });
           }
-          console.log(success, "hello2");
+          // console.log(success, "hello2");
         }
       });
       // console.log(passwordMatch)

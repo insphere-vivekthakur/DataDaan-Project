@@ -28,8 +28,8 @@ const PrivateRoute = ({
     <Route
       {...rest}
       render={(props) => {
-        console.log(rest, "rest");
-        console.log(props, "props");
+        // console.log(rest, "rest");
+        // console.log(props, "props");
         return authenticate() ? (
           <Layout component={Component} type={type} index={index} {...rest} />
         ) : (
@@ -47,7 +47,7 @@ const PrivateRoute = ({
 
 export default function App() {
   const [ID, setID]= useState("")
-  console.log("ID Check", ID);
+  // console.log("ID Check", ID);
   return (
     <BrowserRouter history={history} basename="/">
       <Switch>

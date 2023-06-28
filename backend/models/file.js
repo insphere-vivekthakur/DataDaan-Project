@@ -44,6 +44,10 @@ const fileSchema = mongoose.Schema({
   contactNumber: {
     type: String,
     required: true
+  },
+  folderName: {
+    type: String,
+    required: true
   }
 });
 const File = (module.exports = mongoose.model("File", fileSchema));

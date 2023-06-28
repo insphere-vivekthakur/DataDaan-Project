@@ -173,11 +173,7 @@ const Header = (props) => {
                 color="textPrimary"
                 className={classes.profileName}
               >
-                {/* {username} */}
-                {/* Anamika */}
-                {userInfo.user[0].email}
-
-
+                {userInfo.email}
               </Typography>
               <DownIcon color="action" />
             </Button>

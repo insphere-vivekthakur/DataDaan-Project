@@ -18,20 +18,22 @@ import apiendpoints from "../../../configs/apiendpoints";
 
 const MyContribution = (props) => {
   const { ID } = props;
-  console.log("check param", ID);
+  // console.log("check param", ID);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  // console.log(userInfo,'userInfo');
 
   const [data, setData] = useState([]);
   
-  const getData = (ID) => {
-    const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.getUser}`;
+  const getData = () => {
+    const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.getListOfData}/${userInfo._id}`;
     try {
       
       axios
         // .get(`http://localhost:4500/getUser/${ID}`)
-        .get(`${apiendpoint}${ID}`)
+        .get(`${apiendpoint}`)
         .then((res) => {
-          console.log("testing", res);
-          setData(res.data);
+          // console.log("testing", res.data);
+          setData(res.data.data);
         })
         .catch((err) => console.log(err));
     } catch (err) {
@@ -40,8 +42,8 @@ const MyContribution = (props) => {
   };
 
   useEffect(() => {
-    if (ID !== "") {
-      console.log("check id--", ID);
+    if (userInfo !== null) {
+      // console.log("check id--", ID);
       getData(ID);
     }
   }, [ID]);
@@ -55,6 +57,7 @@ const MyContribution = (props) => {
               <TableRow>
                 <TableCell>Created Timestamp</TableCell>
                 <TableCell>Upload id</TableCell>
+                <TableCell>Uploaded Folder</TableCell>
                 <TableCell>Media File</TableCell>
                 <TableCell>Meta File</TableCell>
                 <TableCell>Permission</TableCell>
@@ -68,7 +71,8 @@ const MyContribution = (props) => {
                   <TableRow>
                     <TableCell>{value.timestamp}</TableCell>
                     <TableCell>{value._id}</TableCell>
-                    <TableCell>{value.mediaFile}</TableCell>
+                    <TableCell>{value.folderName}</TableCell>
+                    <TableCell>{value.dataFile}</TableCell>
                     <TableCell>{value.readmeText}</TableCell>
                     <TableCell>Only use</TableCell>
                     <TableCell>Completed</TableCell>

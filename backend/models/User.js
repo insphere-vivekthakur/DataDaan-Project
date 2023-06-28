@@ -26,22 +26,49 @@ const userSchema = mongoose.Schema({
       },
     ],
   },
-  phone: {
-    type: String,
-    required: false,
-  },
   mobile: {
     type: String,
     required: true,
   },
+  phone: {
+    type: String,
+    required: false,
+    default:""
+  }, 
+  address1:{
+    type: String,
+    required: false,
+    default:""
+  },
+  address2:{
+    type: String,
+    required: false,
+    default:""
+  },
+  address3:{
+    type: String,
+    required: false,
+    default:""
+  },
+  city:{
+    type: String,
+    required: false,
+    default:""
+  },
+  landmark:{
+    type: String,
+    required: false,
+    default:""
+  },
+  pincode:{
+    type: String,
+    required: false,
+    default:""
+  },
   token: {
     type: String,
     default: "",
-  },
-  organization: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Organization",
-  },
+  }
 });
 
 const User = mongoose.model("User", userSchema);

@@ -24,6 +24,8 @@ const initialValues = {
 };
 
 const UploadData = (props) => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
   const { errors, handleBlur, handleSubmit } = useFormik({
     initialValues: initialValues,
     validationSchema: RegisterSchema,
@@ -133,18 +135,19 @@ const UploadData = (props) => {
   const handleSubmitUpload = async (event) => {
     event.preventDefault();
 
-    console.log("checkkkkk");
-    console.log(meta, zip, "check meta data");
+    // console.log("checkkkkk");
+    // console.log(meta, zip, "check meta data");
     const formData = new FormData();
     formData.append("file", zip[0]);
     formData.append("readmeText", meta[0]);
+    formData.append("submittedBy", userInfo._id);
     formData.append("organizationName", userDetails?.organizationName);
     formData.append("designatedOfficerName", userDetails?.designatedOfficerName);
     formData.append("designation", userDetails?.designation);
     formData.append("emailId", userDetails?.emailId);
     formData.append("contactNumber", userDetails?.contactNumber);
 
-    console.log(formData);
+    // console.log(formData);
 
     if (
       userDetails.organizationName === "" ||
@@ -180,17 +183,13 @@ const UploadData = (props) => {
         .then((response) => response.json())
 
         .then((data) => {
-          console.log(data);
-          setID(data[0]._id);
-          // flag=true
-        })
-        .then(() => {
+          // console.log(data);
           toast.success("Submitted succesfully", {
             position: "top-center",
           });
-          console.log("checkkkkk");
+          // console.log("checkkkkk");
+          history.push(`/datadaan/my-contribution`);
         })
-
         .catch((error) => {
           console.error(error);
         });

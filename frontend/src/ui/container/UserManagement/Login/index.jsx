@@ -4,7 +4,7 @@ import {
   withStyles,
   Button,
   TextField,
- 
+
   InputLabel,
   OutlinedInput,
   IconButton,
@@ -82,31 +82,27 @@ const Login = (props) => {
     // debugger
     const { email, password } = values;
     // const body = { username: email, password };
-    axios.post(apiendpoint, { email: email, password:password })
+    axios.post(apiendpoint, { email: email, password: password })
       .then((res) => {
-
-        
         if (res.data.success) {
           localStorage.setItem("userInfo", JSON.stringify(res.data.data));
           localStorage.removeItem("acceptedTnC");
           history.push(`/datadaan/my-contribution/`);
         } else {
-
-         
-          // setSnackbarInfo({
-          //   ...snackbar,
-          //   open: true,
-          //   message: "user details is invalid" ,
-          //   variant: "error",
-          // })          
+          setSnackbarInfo({
+            ...snackbar,
+            open: true,
+            message: "user details is invalid",
+            variant: "error",
+          })
         }
       }).catch((err) => {
         history.push(`/`);
-        alert("details is invalid catch");
-        console.log(err); 
-        //  toast.warning("Mandatory Fields are empty", {
-        //     position: "top-center",autoClose: 2000,
-        //   });
+        // alert("details is invalid catch");
+        // console.log(err); 
+        toast.warning("Mandatory Fields are empty", {
+          position: "top-center", autoClose: 2000,
+        });
         setLoading(false);
         setSnackbarInfo({
           ...snackbar,
@@ -115,105 +111,105 @@ const Login = (props) => {
           variant: "error",
         });
       });
-    };
-    const handleSnackbarClose = () => {
-      setSnackbarInfo({ ...snackbar, open: false });
-    };
+  };
+  const handleSnackbarClose = () => {
+    setSnackbarInfo({ ...snackbar, open: false });
+  };
 
-    const HandleSubmitCheck = () => {
-      handleSubmit();
-    };
+  const HandleSubmitCheck = () => {
+    handleSubmit();
+  };
 
-    const { classes } = props;
+  const { classes } = props;
 
-    return (
-      <>
-      <ToastContainer/>
-        <Grid container className={classes.loginGrid}>
-          <Typography variant="h4">Sign in</Typography>
-          <form className={classes.root} autoComplete="off">
-            <TextField
-              className={classes.textField}
-              required
-              onChange={handleChange("email")}
-              onKeyPress={(e) => e.key === "Enter" && HandleSubmitCheck()}
-              id="outlined-required"
-              value={values.email}
-              error={error.email}
-              label="Email address"
-              //helperText={error.email ? "Enter an email" : " "}
-              variant="outlined"
-            />
-            <FormControl className={classes.fullWidth} variant="outlined">
-              <InputLabel
-                error={error.password}
-                htmlFor="outlined-adornment-password"
-              >
-                Password *
-              </InputLabel>
-
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={values.showPassword ? "text" : "password"}
-                value={values.password}
-                required
-                error={error.password}
-                //helperText={error.password ? "Enter a password" : ""}
-                onChange={handleChange("password")}
-                onKeyPress={(e) => e.key === "Enter" && HandleSubmitCheck()}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                labelWidth={100}
-              />
-              {error.password && (
-                <FormHelperText error={true}>Incorrect password</FormHelperText>
-              )}
-            </FormControl>
-
-            <Button
-              color="primary"
-              size="large"
-              variant="contained"
-              aria-label="edit"
-              className={classes.fullWidth}
-              onClick={() => {
-                HandleSubmitCheck();
-              }}
-              disabled={loading}
-            >
-              {loading && (
-                <CircularProgress
-                  size={24}
-                  className={classes.buttonProgress}
-                />
-              )}
-              Sign In
-            </Button>
-          </form>
-        </Grid>
-          
-        {snackbar.open && (
-          <Snackbar
-            open={snackbar.open}
-            handleClose={handleSnackbarClose}
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            message={snackbar.message}
-            variant={snackbar.variant}
+  return (
+    <>
+      <ToastContainer />
+      <Grid container className={classes.loginGrid}>
+        <Typography variant="h4">Sign in</Typography>
+        <form className={classes.root} autoComplete="off">
+          <TextField
+            className={classes.textField}
+            required
+            onChange={handleChange("email")}
+            onKeyPress={(e) => e.key === "Enter" && HandleSubmitCheck()}
+            id="outlined-required"
+            value={values.email}
+            error={error.email}
+            label="Email address"
+            //helperText={error.email ? "Enter an email" : " "}
+            variant="outlined"
           />
-        )}
-      </>
-    );
-  
+          <FormControl className={classes.fullWidth} variant="outlined">
+            <InputLabel
+              error={error.password}
+              htmlFor="outlined-adornment-password"
+            >
+              Password *
+            </InputLabel>
+
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={values.showPassword ? "text" : "password"}
+              value={values.password}
+              required
+              error={error.password}
+              //helperText={error.password ? "Enter a password" : ""}
+              onChange={handleChange("password")}
+              onKeyPress={(e) => e.key === "Enter" && HandleSubmitCheck()}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={100}
+            />
+            {error.password && (
+              <FormHelperText error={true}>Incorrect password</FormHelperText>
+            )}
+          </FormControl>
+
+          <Button
+            color="primary"
+            size="large"
+            variant="contained"
+            aria-label="edit"
+            className={classes.fullWidth}
+            onClick={() => {
+              HandleSubmitCheck();
+            }}
+            disabled={loading}
+          >
+            {loading && (
+              <CircularProgress
+                size={24}
+                className={classes.buttonProgress}
+              />
+            )}
+            Sign In
+          </Button>
+        </form>
+      </Grid>
+
+      {snackbar.open && (
+        <Snackbar
+          open={snackbar.open}
+          handleClose={handleSnackbarClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          message={snackbar.message}
+          variant={snackbar.variant}
+        />
+      )}
+    </>
+  );
+
 };
 
 export default withStyles(LoginStyles)(Login);
