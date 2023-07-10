@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 import config from "../../../configs/config";
 import apiendpoints from "../../../configs/apiendpoints";
+import Archive from "../../components/svg/archive"
 
 const MyContribution = (props) => {
   const { ID } = props;
@@ -23,11 +24,10 @@ const MyContribution = (props) => {
   // console.log(userInfo,'userInfo');
 
   const [data, setData] = useState([]);
-  
+
   const getData = () => {
     const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.getListOfData}/${userInfo._id}`;
     try {
-      
       axios
         // .get(`http://localhost:4500/getUser/${ID}`)
         .get(`${apiendpoint}`)
@@ -85,12 +85,11 @@ const MyContribution = (props) => {
       ) : (
         <div className="emptyContainer">
           <div className="emptyContainer__main">
-            <div className="u-icon">Icon here</div>
+            <div className="u-icon">
+              <Archive />
+            </div>
+
             <div className="heading">No data added yet</div>
-            <p>
-              Currently you haven't added any data. To contribute pleaes go to
-              upload.
-            </p>
           </div>
         </div>
       )}

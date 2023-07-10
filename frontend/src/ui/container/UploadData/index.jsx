@@ -35,7 +35,7 @@ const UploadData = (props) => {
     },
   });
   // console.log("errors", errors);
-  const { classes, setID } = props;
+  const { classes } = props;
   const [meta, setMeta] = useState([]);
   const [zip, setZip] = useState([]);
   const [loading] = useState(false);
@@ -132,18 +132,28 @@ const UploadData = (props) => {
   // let ans = validateEmail("form");
   // console.log("ans checkkkk", ans);
   // let flag= false
+
+  const checkIfValidIndianMobileNumber=(str)=>{
+    const regexExp = /^[6-9]\d{9}$/gi;
+    return regexExp.test(str);
+
+  }
+
   const handleSubmitUpload = async (event) => {
     event.preventDefault();
 
     // console.log("checkkkkk");
     // console.log(meta, zip, "check meta data");
     const formData = new FormData();
-    formData.append("folderPath", Date.now())
+    formData.append("folderPath", Date.now());
     formData.append("file", zip[0]);
     formData.append("readmeText", meta[0]);
     formData.append("submittedBy", userInfo._id);
     formData.append("organizationName", userDetails?.organizationName);
-    formData.append("designatedOfficerName", userDetails?.designatedOfficerName);
+    formData.append(
+      "designatedOfficerName",
+      userDetails?.designatedOfficerName
+    );
     formData.append("designation", userDetails?.designation);
     formData.append("emailId", userDetails?.emailId);
     formData.append("contactNumber", userDetails?.contactNumber);
@@ -151,6 +161,8 @@ const UploadData = (props) => {
     // console.log(formData);
 
     if (
+      zip.length === 0 ||
+      meta.length === 0 ||
       userDetails.organizationName === "" ||
       userDetails.designatedOfficerName === "" ||
       userDetails.designation === "" ||
@@ -164,9 +176,10 @@ const UploadData = (props) => {
       });
     } else if (
       userDetails.contactNumber.length > 10 ||
-      userDetails.contactNumber.length < 10
+      userDetails.contactNumber.length < 10 ||
+      !checkIfValidIndianMobileNumber(userDetails.contactNumber)
     ) {
-      toast.warning("Enter 10 digit no.", {
+      toast.warning("Enter valid Mobile Number", {
         position: "top-center",
         autoClose: 2000,
       });
@@ -210,22 +223,20 @@ const UploadData = (props) => {
             <Typography>Best practices for submitting the files</Typography>
             <ul>
               <li className={classes.listStyle}>
-                Make sure the names of text file and zip files are
-                <strong>same</strong>.
+                Make sure the names of text file and zip files are <strong>same</strong>.
               </li>
               <li className={classes.listStyle}>
                 Max supported zip file size is <strong>5 GB</strong>.
               </li>
               <li className={classes.listStyle}>
-                The README file should also contain metadata that specifies the
-                <strong>directory structure</strong> of the zipped file.
+                The README file should also contain metadata that specifies the <strong>directory structure</strong> of the zipped file.
               </li>
             </ul>
           </Box>
           <Divider orientation="vertical" variant="middle" flexItem />
           <Box style={{ width: "80%" }}>
             <Box className={`${classes.parentBox} ${classes.innerBox}`}>
-              <Typography style={{ marginRight: "auto" }}>
+              <Typography style={{ marginRight: "auto" }} className="uploadformtext">
                 README.txt
               </Typography>
               <FileUpload
@@ -234,15 +245,17 @@ const UploadData = (props) => {
                 handleFileDelete={clearFiles}
                 label={meta.length > 0 ? meta[0].name : ""}
                 style={{ width: "65%" }}
+                required
+                className="uploadinputtext"
               />
             </Box>
             <Box
               className={`${classes.parentBox}  ${classes.innerBox}`}
               style={{
-                marginTop: "35px",
+                marginTop: "20px",
               }}
             >
-              <Typography style={{ marginRight: "auto" }}>
+              <Typography style={{ marginRight: "auto" }} className="uploadformtext">
                 Media Files zip
               </Typography>
               <FileUpload
@@ -251,6 +264,8 @@ const UploadData = (props) => {
                 handleFileDelete={clearFiles}
                 label={zip.length > 0 ? zip[0].name : ""}
                 style={{ width: "65%" }}
+                required
+                className="uploadinputtext"
               />
             </Box>
             {/* {/ <input type="file" onChange={handleFileChange}/> /} */}
@@ -260,10 +275,10 @@ const UploadData = (props) => {
                 <form onSubmit={handleSubmit}>
                   <Box
                     className={`${classes.parentBox}  ${classes.innerBox}`}
-                    style={{ marginTop: "35px" }}
+                    style={{ marginTop: "20px" }}
                     key={index}
                   >
-                    <Typography style={{ marginRight: "auto", width: "30%" }}>
+                    <Typography style={{ marginRight: "auto", width: "30%" }} className="uploadformtext">
                       {item.label}*
                     </Typography>
 
@@ -275,6 +290,7 @@ const UploadData = (props) => {
                       name={item.name}
                       type={item.type}
                       value={userDetails[item.name]}
+                      className="uploadinputtext"
                       // onChange={handleChange}
                       onBlur={handleBlur}
                       required
@@ -307,7 +323,7 @@ const UploadData = (props) => {
                 color="primary"
                 onClick={handleSubmitUpload}
                 className={classes.submitBtn}
-              // disabled={disableSubmit()}
+                // disabled={disableSubmit()}
               >
                 Submit
               </Button>

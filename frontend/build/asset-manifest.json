@@ -1,25 +1,28 @@
 {
   "files": {
-    "main.css": "/static/css/main.9b8d3fd4.chunk.css",
-    "main.js": "/static/js/main.06db9e56.chunk.js",
-    "main.js.map": "/static/js/main.06db9e56.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.58c97c83.js",
-    "runtime-main.js.map": "/static/js/runtime-main.58c97c83.js.map",
-    "static/js/2.4e31208e.chunk.js": "/static/js/2.4e31208e.chunk.js",
-    "static/js/2.4e31208e.chunk.js.map": "/static/js/2.4e31208e.chunk.js.map",
-    "static/js/3.6e838edb.chunk.js": "/static/js/3.6e838edb.chunk.js",
-    "static/js/3.6e838edb.chunk.js.map": "/static/js/3.6e838edb.chunk.js.map",
+    "main.css": "/static/css/main.d6768739.chunk.css",
+    "main.js": "/static/js/main.03e836f6.chunk.js",
+    "main.js.map": "/static/js/main.03e836f6.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.4e3a6880.js",
+    "runtime-main.js.map": "/static/js/runtime-main.4e3a6880.js.map",
+    "static/css/2.b28305bc.chunk.css": "/static/css/2.b28305bc.chunk.css",
+    "static/js/2.d7642c4a.chunk.js": "/static/js/2.d7642c4a.chunk.js",
+    "static/js/2.d7642c4a.chunk.js.map": "/static/js/2.d7642c4a.chunk.js.map",
+    "static/js/3.5fee96d1.chunk.js": "/static/js/3.5fee96d1.chunk.js",
+    "static/js/3.5fee96d1.chunk.js.map": "/static/js/3.5fee96d1.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.9b8d3fd4.chunk.css.map": "/static/css/main.9b8d3fd4.chunk.css.map",
-    "static/js/2.4e31208e.chunk.js.LICENSE.txt": "/static/js/2.4e31208e.chunk.js.LICENSE.txt",
+    "static/css/2.b28305bc.chunk.css.map": "/static/css/2.b28305bc.chunk.css.map",
+    "static/css/main.d6768739.chunk.css.map": "/static/css/main.d6768739.chunk.css.map",
+    "static/js/2.d7642c4a.chunk.js.LICENSE.txt": "/static/js/2.d7642c4a.chunk.js.LICENSE.txt",
     "static/media/Bhashini_en.269a4710.svg": "/static/media/Bhashini_en.269a4710.svg",
     "static/media/DataDaan.91f5384e.png": "/static/media/DataDaan.91f5384e.png",
     "static/media/LoginLogo.d4c34aa1.png": "/static/media/LoginLogo.d4c34aa1.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.58c97c83.js",
-    "static/js/2.4e31208e.chunk.js",
-    "static/css/main.9b8d3fd4.chunk.css",
-    "static/js/main.06db9e56.chunk.js"
+    "static/js/runtime-main.4e3a6880.js",
+    "static/css/2.b28305bc.chunk.css",
+    "static/js/2.d7642c4a.chunk.js",
+    "static/css/main.d6768739.chunk.css",
+    "static/js/main.03e836f6.chunk.js"
   ]
 }

@@ -36,7 +36,7 @@ const themeDefault = createTheme({
     },
     MuiInputBase:  {
        fullWidth: { 
-         width: "80%" 
+         width: "80%" ,
         } 
       },
     MuiTableRow: {
@@ -195,9 +195,14 @@ const themeDefault = createTheme({
           fontSize: "10px",
         },
       },
+      // sizeLarge: {
+      //   height: "40px",
+      //   borderRadius: "20px",
+      // },
       sizeLarge: {
-        height: "40px",
-        borderRadius: "20px",
+    
+        borderRadius: "4px",
+        padding:"18.5px 14px"
       },
       sizeMedium: {
         height: "40px",
