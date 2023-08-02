@@ -1,32 +1,55 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-const styles = theme => ({
-  progress: {   
-    position:'relative',
-    top:'40%',
-    left:'46%'
-           
+const styles = (theme) => ({
+  progress: {
+    color: "#fff",
+    width: "30px",
+    display: "flex",
   },
-  progressDiv:{
-    position: 'fixed',
-    backgroundColor: 'rgba(0.5, 0, 0, 0.5)',      
-      zIndex: 1000,
-    width:'100%',
-    height:'100%',  
-      top:0,
-    left:0,
-    opacity: 0.4
-  }  
+  progressContainer: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  progressDiv: {
+    position: "fixed",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    zIndex: 1200,
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    display: "flex",
+    justifyContent: "center",
+    overflow: "hidden",
+    alignItems: "center",
+  },
+  pleaseWaitText: {
+    color: "#fff",
+    marginTop: "5px",
+    fontSize: "16px",
+    fontWeight: "lighter",
+  },
 });
 
 function CircularIndeterminate(props) {
   const { classes } = props;
   return (
     <div className={classes.progressDiv}>
-      <CircularProgress color="primary" size={50} className={classes.progress} />
+      <div className={classes.progressContainer}>
+        <CircularProgress
+          color="primary"
+          size={50}
+          className={classes.progress}
+        />
+        <span className={classes.pleaseWaitText}>
+          Your data is uploading, Please wait...{" "}
+        </span>
+      </div>
     </div>
   );
 }

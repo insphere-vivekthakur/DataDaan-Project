@@ -6,7 +6,7 @@ import FileUpload from "../../components/FileUpload";
 import GlobalStyles from "../../styles/Styles";
 import { useHistory } from "react-router-dom";
 import Snackbar from "../../components/Snackbar";
-import LinearIndeterminate from "../../components/LinearProgress";
+// import LinearIndeterminate from "../../components/LinearProgress";
 import TermsAndConditionsModal from "./TermsAndConditionsModal";
 import { textFields } from "../../../utils/utils";
 import { useFormik } from "formik";
@@ -15,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import config from "../../../configs/config";
 import apiendpoints from "../../../configs/apiendpoints";
+import CircularIndeterminate from "../../components/Spinner";
 
 const initialValues = {
   name: "",
@@ -38,7 +39,7 @@ const UploadData = (props) => {
   const { classes } = props;
   const [meta, setMeta] = useState([]);
   const [zip, setZip] = useState([]);
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const [snackbar, setSnackbarInfo] = useState({
     open: false,
@@ -97,6 +98,14 @@ const UploadData = (props) => {
   };
 
   const handleZipFileChange = (files) => {
+    console.log("file ", files);
+    // if (files !== ".zip") {
+    //   // alert("only Zip file to be uploaded")
+    //   toast.warning("Mandatory Fields are empty", {
+    //     position: "top-center",
+    //     autoClose: 2000,
+    //   });
+    // }
     setZip(files);
   };
 
@@ -133,11 +142,10 @@ const UploadData = (props) => {
   // console.log("ans checkkkk", ans);
   // let flag= false
 
-  const checkIfValidIndianMobileNumber=(str)=>{
+  const checkIfValidIndianMobileNumber = (str) => {
     const regexExp = /^[6-9]\d{9}$/gi;
     return regexExp.test(str);
-
-  }
+  };
 
   const handleSubmitUpload = async (event) => {
     event.preventDefault();
@@ -189,6 +197,7 @@ const UploadData = (props) => {
         autoClose: 2000,
       });
     } else {
+      setLoading(true);
       const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.upload}`;
       await fetch(apiendpoint, {
         method: "POST",
@@ -198,6 +207,7 @@ const UploadData = (props) => {
 
         .then((data) => {
           // console.log(data);
+          setLoading(false);
           toast.success("Submitted succesfully", {
             position: "top-center",
           });
@@ -206,13 +216,14 @@ const UploadData = (props) => {
         })
         .catch((error) => {
           console.error(error);
+          setLoading(false);
         });
     }
   };
 
   return (
     <>
-      {loading && <LinearIndeterminate />}
+      {loading && <CircularIndeterminate />}
       <Box className={classes.flexBox}>
         <Box className={classes.parentBox}>
           <Box
@@ -223,20 +234,25 @@ const UploadData = (props) => {
             <Typography>Best practices for submitting the files</Typography>
             <ul>
               <li className={classes.listStyle}>
-                Make sure the names of text file and zip files are <strong>same</strong>.
+                Make sure the names of text file and zip files are{" "}
+                <strong>same</strong>.
               </li>
               <li className={classes.listStyle}>
                 Max supported zip file size is <strong>5 GB</strong>.
               </li>
               <li className={classes.listStyle}>
-                The README file should also contain metadata that specifies the <strong>directory structure</strong> of the zipped file.
+                The README file should also contain metadata that specifies the{" "}
+                <strong>directory structure</strong> of the zipped file.
               </li>
             </ul>
           </Box>
           <Divider orientation="vertical" variant="middle" flexItem />
           <Box style={{ width: "80%" }}>
             <Box className={`${classes.parentBox} ${classes.innerBox}`}>
-              <Typography style={{ marginRight: "auto" }} className="uploadformtext">
+              <Typography
+                style={{ marginRight: "auto" }}
+                className="uploadformtext"
+              >
                 README.txt
               </Typography>
               <FileUpload
@@ -255,9 +271,21 @@ const UploadData = (props) => {
                 marginTop: "20px",
               }}
             >
-              <Typography style={{ marginRight: "auto" }} className="uploadformtext">
+              <Typography
+                style={{ marginRight: "auto" }}
+                className="uploadformtext"
+              >
                 Media Files zip
+                {/* <Tooltip
+                  open={open}
+                  onClose={handleCloseToolTip}
+                  onOpen={handleOpen}
+                  title="Only Zip Files Are  Allowed"
+                >
+                  <button className="iAlertButton">!</button>
+                </Tooltip> */}
               </Typography>
+
               <FileUpload
                 acceptedFiles={[".zip"]}
                 handleFileChange={handleZipFileChange}
@@ -278,7 +306,10 @@ const UploadData = (props) => {
                     style={{ marginTop: "20px" }}
                     key={index}
                   >
-                    <Typography style={{ marginRight: "auto", width: "30%" }} className="uploadformtext">
+                    <Typography
+                      style={{ marginRight: "auto", width: "30%" }}
+                      className="uploadformtext"
+                    >
                       {item.label}*
                     </Typography>
 

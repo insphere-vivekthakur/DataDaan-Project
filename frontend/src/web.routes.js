@@ -1,10 +1,4 @@
-import {
-  
-  Switch,
-  Route,
-  Redirect,
-  BrowserRouter,
-} from "react-router-dom";
+import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
 import history from "./web.history";
 import Layout from "./ui/Layout";
 import authenticateUser from "./configs/authenticate";
@@ -46,12 +40,14 @@ const PrivateRoute = ({
 };
 
 export default function App() {
-  const [ID, setID]= useState("")
+  const [ID, setID] = useState("");
   // console.log("ID Check", ID);
   return (
     <BrowserRouter history={history} basename="/">
       <Switch>
         <Route exact path="/" component={Login} />
+
+        {/* <Route exact path="/newlogin" component={NewLogin} /> */}
         {/* <Route exact path="/" component={MyContribution} /> */}
         <Route
           exact
@@ -62,7 +58,7 @@ export default function App() {
           path={`/datadaan/upload-data`}
           title={"Upload Data"}
           authenticate={authenticateUser}
-          component={(props)=><UploadData {...props} setID={setID}/>}
+          component={(props) => <UploadData {...props} setID={setID} />}
           currentMenu="upload-data"
           dontShowHeader={false}
           type={"dataset"}
@@ -80,7 +76,6 @@ export default function App() {
           type={"dataset"}
           index={0}
         />
-
       </Switch>
     </BrowserRouter>
   );
