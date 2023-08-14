@@ -37,7 +37,8 @@ const styles = (theme) => ({
 });
 
 function CircularIndeterminate(props) {
-  const { classes } = props;
+  const { classes,progress } = props;
+  console.log("check progress",progress);
   return (
     <div className={classes.progressDiv}>
       <div className={classes.progressContainer}>
@@ -47,7 +48,7 @@ function CircularIndeterminate(props) {
           className={classes.progress}
         />
         <span className={classes.pleaseWaitText}>
-          Your data is uploading, Please wait...{" "}
+          Your data is uploading, Please wait... {progress}%
         </span>
       </div>
     </div>

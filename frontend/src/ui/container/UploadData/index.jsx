@@ -1,7 +1,7 @@
 import { Box, Button, Divider, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FileUpload from "../../components/FileUpload";
 import GlobalStyles from "../../styles/Styles";
 import { useHistory } from "react-router-dom";
@@ -16,6 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import config from "../../../configs/config";
 import apiendpoints from "../../../configs/apiendpoints";
 import CircularIndeterminate from "../../components/Spinner";
+// import CircularProgressBar from "../../components/Spinner";
+import axios from "axios";
 
 const initialValues = {
   name: "",
@@ -57,7 +59,11 @@ const UploadData = (props) => {
     emailId: "",
     contactNumber: "",
   });
+  const [progress, setProgress] = useState(0);
 
+  useEffect(() => {
+    console.log("progress", progress);
+  }, [progress]);
   const handleClose = () => {
     history.push(`${process.env.PUBLIC_URL}/datadaan/my-contribution`);
     setModal(false);
@@ -199,12 +205,16 @@ const UploadData = (props) => {
     } else {
       setLoading(true);
       const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.upload}`;
-      await fetch(apiendpoint, {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-
+      await axios
+        .post(apiendpoint, formData, {
+          onUploadProgress: (event) => {
+            const percentCompleted = Math.round(
+              (100 * event.loaded) / event.total
+            );
+            console.log("percen", percentCompleted);
+            setProgress(percentCompleted);
+          },
+        })
         .then((data) => {
           // console.log(data);
           setLoading(false);
@@ -223,7 +233,12 @@ const UploadData = (props) => {
 
   return (
     <>
-      {loading && <CircularIndeterminate />}
+      {/* {loading && <ProgressBar progress={progress} />} */}
+      {loading && <CircularIndeterminate progress={progress} />}
+      {/* {loading &&  <CircularProgressBar progress={progress} />} */}
+
+      {/* {loading && <PercentageProgressBar percentage={progress} />} */}
+
       <Box className={classes.flexBox}>
         <Box className={classes.parentBox}>
           <Box
@@ -287,7 +302,7 @@ const UploadData = (props) => {
               </Typography>
 
               <FileUpload
-                acceptedFiles={[".zip"]}
+                acceptedFiles={[".zip", ".tar",".rar"]}
                 handleFileChange={handleZipFileChange}
                 handleFileDelete={clearFiles}
                 label={zip.length > 0 ? zip[0].name : ""}
