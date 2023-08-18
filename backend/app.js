@@ -30,7 +30,7 @@ const userRoute = require("./routes/userRoute");
 app.use("/", userRoute);
 app.use("/", file);
 app.get("", (req, res) => {
-  return res.json("Rohit Kumar Shukla");
+  return res.status(200).send("<h1>Welcome to Datadaan Portal</h1>");
 });
 app.listen(port, function () {
   console.log(`server is running on ${port}`);

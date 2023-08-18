@@ -105,7 +105,7 @@ const userLogin = async (req, res) => {
               firstname: userData.firstname,
               lastname: userData.lastname,
               email: userData.email,
-              password: userData.password,
+              // password: userData.password,
               mobile: userData.mobile,
               address1: userData.address1,
               address2: userData.address2,
@@ -117,7 +117,7 @@ const userLogin = async (req, res) => {
             };
             const response = {
               success: true,
-              msg: "login successfull",
+              msg: "Login successfull",
               data: userResult,
             };
             res.status(200).send(response);
