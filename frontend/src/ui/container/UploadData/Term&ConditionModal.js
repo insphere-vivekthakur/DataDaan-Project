@@ -119,9 +119,9 @@ export default function AlertDialog({ hide, onClose, handleMenuTypeClick }) {
                   without the right to publish the datasets created.{" "}
                 </label>
               </div>
-              <div>
-                {" "}
-                <DialogContentText>
+              <div >
+                
+                <DialogContentText className="modaltext">
                   Conributions made shall be duly acknowledged on the Mission's
                   Portal.
                 </DialogContentText>
