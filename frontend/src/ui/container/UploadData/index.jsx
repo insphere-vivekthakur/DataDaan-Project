@@ -61,9 +61,15 @@ const UploadData = (props) => {
   });
   const [progress, setProgress] = useState(0);
 
+<<<<<<< HEAD
 useEffect(()=>{
 console.log("progress", progress);
 },[progress])
+=======
+  useEffect(() => {
+    console.log("progress", progress);
+  }, [progress]);
+>>>>>>> 4f510239bbadb03bfb4a77d7805bbea6884ee1d5
   const handleClose = () => {
     history.push(`${process.env.PUBLIC_URL}/datadaan/my-contribution`);
     setModal(false);
@@ -205,6 +211,7 @@ console.log("progress", progress);
     } else {
       setLoading(true);
       const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.upload}`;
+<<<<<<< HEAD
       await axios.post(apiendpoint, formData ,{
         onUploadProgress: (event) => {
           const percentCompleted = Math.round((100 * event.loaded) / event.total);
@@ -212,6 +219,18 @@ console.log("progress", progress);
           setProgress(percentCompleted);
         },
       })
+=======
+      await axios
+        .post(apiendpoint, formData, {
+          onUploadProgress: (event) => {
+            const percentCompleted = Math.round(
+              (100 * event.loaded) / event.total
+            );
+            console.log("percen", percentCompleted);
+            setProgress(percentCompleted);
+          },
+        })
+>>>>>>> 4f510239bbadb03bfb4a77d7805bbea6884ee1d5
         .then((data) => {
           // console.log(data);
           setLoading(false);
@@ -231,7 +250,11 @@ console.log("progress", progress);
   return (
     <>
       {/* {loading && <ProgressBar progress={progress} />} */}
+<<<<<<< HEAD
       {loading &&  <CircularIndeterminate progress={progress} />}
+=======
+      {loading && <CircularIndeterminate progress={progress} />}
+>>>>>>> 4f510239bbadb03bfb4a77d7805bbea6884ee1d5
       {/* {loading &&  <CircularProgressBar progress={progress} />} */}
 
       {/* {loading && <PercentageProgressBar percentage={progress} />} */}
@@ -299,7 +322,11 @@ console.log("progress", progress);
               </Typography>
 
               <FileUpload
+<<<<<<< HEAD
                 acceptedFiles={[".zip",".tar"]}
+=======
+                acceptedFiles={[".zip", ".tar",".rar"]}
+>>>>>>> 4f510239bbadb03bfb4a77d7805bbea6884ee1d5
                 handleFileChange={handleZipFileChange}
                 handleFileDelete={clearFiles}
                 label={zip.length > 0 ? zip[0].name : ""}
