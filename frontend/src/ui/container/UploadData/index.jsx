@@ -61,9 +61,9 @@ const UploadData = (props) => {
   });
   const [progress, setProgress] = useState(0);
 
-  useEffect(() => {
-    console.log("progress", progress);
-  }, [progress]);
+useEffect(()=>{
+console.log("progress", progress);
+},[progress])
   const handleClose = () => {
     history.push(`${process.env.PUBLIC_URL}/datadaan/my-contribution`);
     setModal(false);
@@ -205,16 +205,13 @@ const UploadData = (props) => {
     } else {
       setLoading(true);
       const apiendpoint = `${config.BASE_URL_AUTO}${apiendpoints.upload}`;
-      await axios
-        .post(apiendpoint, formData, {
-          onUploadProgress: (event) => {
-            const percentCompleted = Math.round(
-              (100 * event.loaded) / event.total
-            );
-            console.log("percen", percentCompleted);
-            setProgress(percentCompleted);
-          },
-        })
+      await axios.post(apiendpoint, formData ,{
+        onUploadProgress: (event) => {
+          const percentCompleted = Math.round((100 * event.loaded) / event.total);
+          console.log("percen", percentCompleted);
+          setProgress(percentCompleted);
+        },
+      })
         .then((data) => {
           // console.log(data);
           setLoading(false);
@@ -234,7 +231,7 @@ const UploadData = (props) => {
   return (
     <>
       {/* {loading && <ProgressBar progress={progress} />} */}
-      {loading && <CircularIndeterminate progress={progress} />}
+      {loading &&  <CircularIndeterminate progress={progress} />}
       {/* {loading &&  <CircularProgressBar progress={progress} />} */}
 
       {/* {loading && <PercentageProgressBar percentage={progress} />} */}
@@ -302,7 +299,7 @@ const UploadData = (props) => {
               </Typography>
 
               <FileUpload
-                acceptedFiles={[".zip", ".tar",".rar"]}
+                acceptedFiles={[".zip",".tar"]}
                 handleFileChange={handleZipFileChange}
                 handleFileDelete={clearFiles}
                 label={zip.length > 0 ? zip[0].name : ""}

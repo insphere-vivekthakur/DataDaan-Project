@@ -11,6 +11,7 @@
 /backend/.pnp
 /backend/.pnp.js
 /backend/.env
+/backend/register_account.js
 
 /backend/uploads
 # testing

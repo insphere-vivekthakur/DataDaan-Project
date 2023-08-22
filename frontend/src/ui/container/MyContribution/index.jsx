@@ -59,6 +59,7 @@ const MyContribution = (props) => {
                 <TableCell>Upload id</TableCell>
                 <TableCell>Uploaded Folder</TableCell>
                 <TableCell>Media File</TableCell>
+                <TableCell>Media Size</TableCell>
                 <TableCell>Meta File</TableCell>
                 <TableCell>Permission</TableCell>
                 <TableCell>Upload Status</TableCell>
@@ -73,6 +74,7 @@ const MyContribution = (props) => {
                     <TableCell>{value._id}</TableCell>
                     <TableCell>{value.folderName}</TableCell>
                     <TableCell>{value.dataFile}</TableCell>
+                    <TableCell>{value.fileSize}</TableCell>
                     <TableCell>{value.readmeText}</TableCell>
                     <TableCell>Only use</TableCell>
                     <TableCell>Completed</TableCell>

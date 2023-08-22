@@ -48,6 +48,10 @@ const fileSchema = mongoose.Schema({
   folderName: {
     type: String,
     required: true
+  }  ,
+  fileSize: {
+    type: String,
+    required: false
   }
 });
 const File = (module.exports = mongoose.model("File", fileSchema));
