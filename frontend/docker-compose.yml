@@ -4,7 +4,7 @@ services:
 
   app:
     build: .
-    container_name: api-container
+    container_name: frontend-container
     stdin_open: true
     tty: true
  
