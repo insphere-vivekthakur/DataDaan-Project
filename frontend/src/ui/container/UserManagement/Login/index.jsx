@@ -4,7 +4,6 @@ import {
   withStyles,
   Button,
   TextField,
-
   InputLabel,
   OutlinedInput,
   IconButton,
@@ -70,7 +69,6 @@ const Login = (props) => {
   };
 
   const handleSubmit = async () => {
-
     // setSnackbarInfo({
     //   ...snackbar,
     //   open: true,
@@ -82,7 +80,8 @@ const Login = (props) => {
     // debugger
     const { email, password } = values;
     // const body = { username: email, password };
-    axios.post(apiendpoint, { email: email, password: password })
+    axios
+      .post(apiendpoint, { email: email, password: password })
       .then((res) => {
         if (res.data.success) {
           localStorage.setItem("userInfo", JSON.stringify(res.data.data));
@@ -94,14 +93,16 @@ const Login = (props) => {
             open: true,
             message: "user details is invalid",
             variant: "error",
-          })
+          });
         }
-      }).catch((err) => {
+      })
+      .catch((err) => {
         history.push(`/`);
         // alert("details is invalid catch");
-        // console.log(err); 
+        // console.log(err);
         toast.warning("Mandatory Fields are empty", {
-          position: "top-center", autoClose: 2000,
+          position: "top-center",
+          autoClose: 2000,
         });
         setLoading(false);
         setSnackbarInfo({
@@ -188,10 +189,7 @@ const Login = (props) => {
             disabled={loading}
           >
             {loading && (
-              <CircularProgress
-                size={24}
-                className={classes.buttonProgress}
-              />
+              <CircularProgress size={24} className={classes.buttonProgress} />
             )}
             Sign In
           </Button>
@@ -209,7 +207,6 @@ const Login = (props) => {
       )}
     </>
   );
-
 };
 
 export default withStyles(LoginStyles)(Login);
