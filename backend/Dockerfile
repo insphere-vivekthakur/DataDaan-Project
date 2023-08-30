@@ -1,5 +1,5 @@
 ﻿#Stage 1
-FROM node:12.18.3 as build
+FROM node:14.17.5 as build
 WORKDIR /datadaanbackend
 COPY package.json .
 RUN npm install

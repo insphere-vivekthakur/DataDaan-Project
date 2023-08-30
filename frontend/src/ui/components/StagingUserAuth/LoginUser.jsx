@@ -13,7 +13,7 @@ const LoginUser = ({ handler }) => {
       try {
         axios({
           method: 'post',
-          url: 'http://localhost:4500/userAuthLogin',
+          url: 'https://bhashini-datadaan-backend-webapp.azurewebsites.net/userAuthLogin',
           data: {
             "email": getUserEmail,
             "password": getUserPassword
