@@ -8,9 +8,46 @@ const LoginUser = ({ handler }) => {
   const [getUserEmail, setUserEmail] = useState("");
   const [getUserPassword, setUserPassword] = useState("");
 
+  const customId = "custom-id-yes";
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const handleUserLogin = () => {
-    // handler({"isSucsess":true})
-    if (getUserEmail.length > 0 && getUserPassword.length) {
+    if (getUserEmail.length === 0 && getUserPassword.length === 0) {
+      toast.error("Both fields are mandatory", {
+        position: "bottom-center",
+        closeOnClick: true,
+        autoClose: 1000,
+        hideProgressBar: true,
+        theme: "colored",
+      });
+    } else if (getUserEmail.length === 0) {
+      toast.error("Email is mandatory", {
+        position: "bottom-center",
+        closeOnClick: true,
+        toastId: customId,
+        autoClose: 1000,
+        hideProgressBar: true,
+        theme: "colored",
+      });
+    } else if (!emailPattern.test(getUserEmail)) {
+      //  emailPattern.test(getUserRemail) =>true
+      toast.error("Enter valid email ", {
+        position: "bottom-center",
+        closeOnClick: true,
+        toastId: customId,
+        autoClose: 1000,
+        hideProgressBar: true,
+        theme: "colored",
+      });
+    } else if (getUserPassword.length === 0) {
+      toast.error("Password is mandatory", {
+        position: "bottom-center",
+        closeOnClick: true,
+        toastId: customId,
+        autoClose: 1000,
+        hideProgressBar: true,
+        theme: "colored",
+      });
+    } else {
       try {
         axios({
           method: "post",
@@ -19,29 +56,36 @@ const LoginUser = ({ handler }) => {
             email: getUserEmail,
             password: getUserPassword,
           },
-        })
-          .then((data) => {
-            console.log("data check", data);
-            if (!data.data.success) {
-              toast.warning("Invalid Details", {
+        }).then((data) => {
+          if (data.data.success) {
+            handler({ isSucsess: true });
+            // toast.success("Login Success", {
+            //   position: "bottom-center",
+            //   closeOnClick: true,
+            //   autoClose: 1000,
+            //   hideProgressBar: true,
+            //   theme: "colored",
+            //   toastId: customId,
+            // });
+          } else {
+            toast.error(
+              // `${data.data.msg}`
+              "Invalid user details",
+
+              {
                 position: "bottom-center",
                 closeOnClick: true,
-              });
-              handler({ isSucsess: false });
-            } else {
-              handler({ isSucsess: true });
-              // toast.success("Login Succes", {
-              //   position: "bottom-center",
-              //   closeOnClick: true,autoClose: 1000
-              // });
-            }
-            // data.data.success
-            //   ? handler({ isSucsess: true })
-            //   : handler({ isSucsess: false });
-          })
-          .catch((err) => console.log(err));
+                toastId: customId,
+                autoClose: 1000,
+                hideProgressBar: true,
+                theme: "colored",
+              }
+            );
+            handler({ isSucsess: false });
+          }
+        });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
@@ -59,7 +103,7 @@ const LoginUser = ({ handler }) => {
               className="u-field"
               type="text"
               name="name"
-              placeholder="Username"
+              placeholder="Username*"
               value={getUserEmail}
               onChange={(e) => setUserEmail(e.target.value)}
             ></input>
@@ -70,7 +114,7 @@ const LoginUser = ({ handler }) => {
               className="u-field"
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="Password*"
               value={getUserPassword}
               onChange={(e) => setUserPassword(e.target.value)}
             ></input>
@@ -85,7 +129,7 @@ const LoginUser = ({ handler }) => {
             ></input>
           </div>
         </div>
-      </div>{" "}
+      </div>
       <ToastContainer />
     </div>
   );
