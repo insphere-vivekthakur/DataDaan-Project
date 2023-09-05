@@ -12,7 +12,7 @@ const LoginUser = ({ handler }) => {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const handleUserLogin = () => {
     if (getUserEmail.length === 0 && getUserPassword.length === 0) {
-      toast.error("Both fields are mandatory", {
+      toast.error("Both fields are required ", {
         position: "bottom-center",
         closeOnClick: true,
         autoClose: 1000,
@@ -30,7 +30,7 @@ const LoginUser = ({ handler }) => {
       });
     } else if (!emailPattern.test(getUserEmail)) {
       //  emailPattern.test(getUserRemail) =>true
-      toast.error("Enter valid email ", {
+      toast.error("Please enter a valid email address ", {
         position: "bottom-center",
         closeOnClick: true,
         toastId: customId,
@@ -70,7 +70,7 @@ const LoginUser = ({ handler }) => {
           } else {
             toast.error(
               // `${data.data.msg}`
-              "Invalid user details",
+              "User details are not valid",
 
               {
                 position: "bottom-center",
