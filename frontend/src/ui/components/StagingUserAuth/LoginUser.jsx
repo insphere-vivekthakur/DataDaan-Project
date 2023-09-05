@@ -103,7 +103,7 @@ const LoginUser = ({ handler }) => {
               className="u-field"
               type="text"
               name="name"
-              placeholder="Username*"
+              placeholder="Email*"
               value={getUserEmail}
               onChange={(e) => setUserEmail(e.target.value)}
             ></input>
