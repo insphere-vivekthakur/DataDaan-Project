@@ -51,5 +51,20 @@ pipeline {
                             }
                         }
                 }
+
+        stage('deploy to appservice') {
+                steps {
+                        withCredentials([
+                        string(credentialsId: 'app-id', variable: 'username'),
+                        string(credentialsId: 'tenant-id', variable: 'tenant'),
+                        string(credentialsId: 'app-id-pass', variable: 'password')
+                        ]) {
+                        sh """
+                            /usr/bin/az login --service-principal -u ${username} -p ${password} --tenant ${tenant}
+                            /usr/bin/az  webapp config container set --name Bhashini-Datadaan-webapp --resource-group Bhashini-Datadaan-Staging-RG --docker-custom-image-name=datadaanstaging.azurecr.io/datadaanstaging/datadaan-fe:${env.BUILD_ID}
+                            """
+                        }
+                     }
+            }
     }
 }
