@@ -8,8 +8,8 @@ const LoginUser = ({ handler }) => {
   const [getUserEmail, setUserEmail] = useState("");
   const [getUserPassword, setUserPassword] = useState("");
 
-  const customId = "custom-id-yes";
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const customId = "custom-id-yes";
   const handleUserLogin = () => {
     if (getUserEmail.length === 0 && getUserPassword.length === 0) {
       toast.error("Both fields are required ", {
@@ -29,7 +29,6 @@ const LoginUser = ({ handler }) => {
         theme: "colored",
       });
     } else if (!emailPattern.test(getUserEmail)) {
-      //  emailPattern.test(getUserRemail) =>true
       toast.error("Please enter a valid email address ", {
         position: "bottom-center",
         closeOnClick: true,
@@ -59,17 +58,8 @@ const LoginUser = ({ handler }) => {
         }).then((data) => {
           if (data.data.success) {
             handler({ isSucsess: true });
-            // toast.success("Login Success", {
-            //   position: "bottom-center",
-            //   closeOnClick: true,
-            //   autoClose: 1000,
-            //   hideProgressBar: true,
-            //   theme: "colored",
-            //   toastId: customId,
-            // });
           } else {
             toast.error(
-              // `${data.data.msg}`
               "User details are not valid",
 
               {
