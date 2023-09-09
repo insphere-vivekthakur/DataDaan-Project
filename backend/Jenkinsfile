@@ -1,0 +1,70 @@
+pipeline {
+
+    agent any
+
+                environment {
+                        registryName = "datadaanstaging/datadaan-be" //:test
+                        dockerfileDir = "/var/lib/jenkins/workspace/datadaan-staging/backend" //path to the Dockerfile directory
+                        registryUrl = "datadaanstaging.azurecr.io"
+                        registryCredential = "ACR"
+                        //dockerImage = 'bhashini'
+                		webAppResourceGroup = 'Bhashini-Datadaan-Staging-RG'
+                		webAppName = 'Bhashini-Datadaan-Backend-WebApp'
+
+                    }
+
+    stages {
+            stage('checkout') {
+                steps {
+                    checkout scm
+                    }
+            }
+        
+        //stage('List Workspace Contents') {
+               // steps {
+              //      sh 'ls -l /var/lib/jenkins/workspace/datadaan-staging-frontend/'
+              //  }
+           // }
+
+        stage ('Build Docker image') {
+                    steps {
+                                                
+                        script {
+                
+                            
+                           dir("${dockerfileDir}") {
+                            // Build a Docker image with the specified registry name
+                            dockerImage = docker.build("${registryName}:${env.BUILD_ID}")
+                           // dockerImage = docker.build("${registryName}", "-f Dockerfile .")
+                                }
+                                                               
+                            }
+                    }
+                }
+        // Uploading Docker images into ACR
+        stage('Upload Image to ACR') {
+                    steps{   
+                        script {
+                            docker.withRegistry( "http://${registryUrl}", registryCredential ) {
+                            dockerImage.push()
+                                }
+                            }
+                        }
+                }
+
+        stage('deploy to appservice') {
+                steps {
+                        withCredentials([
+                        string(credentialsId: 'app-id', variable: 'username'),
+                        string(credentialsId: 'tenant-id', variable: 'tenant'),
+                        string(credentialsId: 'app-id-pass', variable: 'password')
+                        ]) {
+                        sh """
+                            /usr/bin/az login --service-principal -u ${username} -p ${password} --tenant ${tenant}
+                            /usr/bin/az  webapp config container set --name Bhashini-Datadaan-Backend-WebApp --resource-group Bhashini-Datadaan-Staging-RG --docker-custom-image-name=datadaanstaging.azurecr.io/datadaanstaging/datadaan-be:${env.BUILD_ID}
+                            """
+                        }
+                     }
+            }
+    }
+}
