@@ -52,7 +52,7 @@ pipeline {
                         }
                 }
 
-        stage('deploy to appservice') {
+        /* stage('deploy to appservice') {
                 steps {
                         withCredentials([
                         string(credentialsId: 'app-id', variable: 'username'),
@@ -65,6 +65,6 @@ pipeline {
                             """
                         }
                      }
-            }
+            } */
     }
 }
