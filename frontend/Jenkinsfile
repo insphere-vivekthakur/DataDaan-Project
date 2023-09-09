@@ -2,6 +2,17 @@ pipeline {
 
     agent any
 
+                environment {
+                        registryName = "datadaanstaging"  //datadaan-fe:test
+                        dockerfileDir = "/var/lib/jenkins/workspace/datadaan-staging/frontend" //path to the Dockerfile directory
+                        registryUrl = "datadaanstaging.azurecr.io"
+                        registryCredential = "ACR"
+                        //dockerImage = 'bhashini'
+                		webAppResourceGroup = 'Bhashini-Datadaan-Staging-RG'
+                		webAppName = 'Bhashini-Datadaan-webapp'
+
+                    }
+
         stages {
             stage('checkout') {
                 steps {
@@ -9,4 +20,19 @@ pipeline {
                     }
             }
         }
+
+        stage('Build Docker image') {
+                    steps {
+                                                
+                        script {
+                
+                            dockerImage = docker.build("${registryName}:${env.BUILD_ID}")
+                           // dir("${dockerfileDir}") {
+                            // Build a Docker image with the specified registry name
+                           // dockerImage = docker.build("${registryName}", "-f Dockerfile .")
+                               // }
+                                                               
+                            }
+                    }
+                }
 }
