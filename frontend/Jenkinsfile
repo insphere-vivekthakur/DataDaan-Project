@@ -13,13 +13,13 @@ pipeline {
 
                     }
 
-        stages {
+    stages {
             stage('checkout') {
                 steps {
                     checkout scm
                     }
             }
-        }
+        
 
         stage ('Build Docker image') {
                     steps {
@@ -35,4 +35,5 @@ pipeline {
                             }
                     }
                 }
+    }
 }
