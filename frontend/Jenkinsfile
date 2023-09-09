@@ -31,11 +31,12 @@ pipeline {
                                                 
                         script {
                 
-                            dockerImage = docker.build("${registryName}:${env.BUILD_ID}")
-                           // dir("${dockerfileDir}") {
+                            
+                           dir("${dockerfileDir}") {
                             // Build a Docker image with the specified registry name
+                            dockerImage = docker.build("${registryName}:${env.BUILD_ID}")
                            // dockerImage = docker.build("${registryName}", "-f Dockerfile .")
-                               // }
+                                }
                                                                
                             }
                     }
