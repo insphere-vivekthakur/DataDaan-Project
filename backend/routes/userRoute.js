@@ -25,6 +25,9 @@ route.post('/userAuthPassUpdate', userController.userAuthPassUpdate);
 route.post('/userAuthDelete', userController.userAuthDelete);
 
 
-
+route.get('/feedFIRdata', userController.feedFIRdata);
+route.get('/getAllFIRNumbers', userController.getAllFIRNumbers);
+route.get('/searchFIR/:firNumber', userController.searchFIR);
+route.put('/updateFIRData/:firNumber', userController.updateFIRData);
 
 module.exports = route;
