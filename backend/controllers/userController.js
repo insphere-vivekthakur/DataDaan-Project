@@ -837,6 +837,42 @@ const updateFIRService = async (req, res) => {
     });
   }
 };
+
+const getAllHistoryFIR = async (req, res) => {
+  try {
+    // Find all FIRs
+    const allFIRs = await FIRModel.find();
+    if (allFIRs.length > 0) {
+      const updatedModelData = allFIRs.filter(data => data.isAddToHistory===true)
+      res.status(200).json({
+        success: true,
+        status: 'success',
+        statusCode: 200,
+        message: 'FIRs retrieved successfully',
+        data: updatedModelData,
+      });
+
+    } else {
+      res.status(200).json({
+        success: true,
+        status: 'success',
+        statusCode: 200,
+        message: 'FIRs retrieved successfully',
+        data: [],
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      status: 'error',
+      statusCode: 500,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+}
+
 // ===============================================================================================================//
 
 
@@ -854,5 +890,6 @@ module.exports = {
   getAllFIRNumbers,
   updateFIRData,
   updateFIRService,
-  addFIRdata
+  addFIRdata,
+  getAllHistoryFIR
 };
