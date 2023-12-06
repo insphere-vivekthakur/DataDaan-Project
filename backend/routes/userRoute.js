@@ -29,5 +29,8 @@ route.get('/feedFIRdata', userController.feedFIRdata);
 route.get('/getAllFIRNumbers', userController.getAllFIRNumbers);
 route.get('/searchFIR/:firNumber', userController.searchFIR);
 route.put('/updateFIRData/:firNumber', userController.updateFIRData);
+route.put('/updateFIRService/:firNumber', userController.updateFIRService);
+route.post('/addFIRdata', userController.addFIRdata);
+
 
 module.exports = route;

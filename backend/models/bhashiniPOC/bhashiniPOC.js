@@ -36,45 +36,61 @@ const firSchema = new mongoose.Schema({
   },
   translatedData: {
     description: {
-        type:String,
-        default:""
+      type: String,
+      default: ""
     },
     summary: {
-        type:String,
-        default:""
+      type: String,
+      default: ""
     },
-    additionalDetails:{
-        type:String,
-        default:""
+    additionalDetails: {
+      type: String,
+      default: ""
     },
   },
   ttsData: {
     description: {
-        type:String,
-        default:""
+      type: String,
+      default: ""
     },
     summary: {
-        type:String,
-        default:""
+      type: String,
+      default: ""
     },
     additionalDetails: {
-        type:String,
-        default:""
+      type: String,
+      default: ""
     },
   },
   asrData: {
     description: {
-        type:String,
-        default:""
+      type: String,
+      default: ""
     },
     summary: {
-        type:String,
-        default:""
+      type: String,
+      default: ""
     },
     additionalDetails: {
-        type:String,
-        default:""
-    },
+      type: String,
+      default: ""
+    }
+  },
+  isTranslationDone: {
+    type: Boolean,
+    default: false
+  },
+  isTTSDone: {
+    type: Boolean,
+    default: false
+  },
+  isASRDone: {
+    type: Boolean,
+    default: false
+  },
+  isAddToHistory: {
+    type: Boolean,
+    default: false
   },
 });
 

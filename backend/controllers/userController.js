@@ -608,6 +608,57 @@ const feedFIRdata = async (req, res) => {
 }
 
 
+const addFIRdata = async (req, res) => {
+  let data = req.body;
+  let updatedData = {
+    "firNumber": `FIR${(Math.floor(Math.random() * 90000) + 10000)}`,
+    "serialNumber": `SN0${(Math.floor(Math.random() * 900) + 100)}`,
+    "complaintName": data.complaintName,
+    "firDetails": {
+      "description": data.firDetails.description,
+      "summary": data.firDetails.summary,
+      "additionalDetails": data.firDetails.additionalDetails
+    },
+    "firPlace": data.firPlace,
+    "firTime": data.firTime,
+    "policeStation": {
+      "name": data.policeStation.name,
+      "officerName": data.policeStation.officerName,
+      "badgeNumber": data.policeStation.badgeNumber
+    },
+    "complainantContact": {
+      "name": data.complainantContact.name,
+      "contactNumber": data.complainantContact.contactNumber,
+      "address": data.complainantContact.address
+    },
+    "status": data.status
+  }
+
+
+  try {
+    const firData = new FIRModel(updatedData);
+    let result = await firData.save();
+
+    res.status(200).json({
+      success: true,
+      status: 'success',
+      statusCode: 200,
+      message: 'Data Inserted Successfully',
+      data: result
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      status: 'error',
+      statusCode: 500,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+}
+
+
 const searchFIR = async (req, res) => {
   try {
     const { firNumber } = req.params;
@@ -737,6 +788,55 @@ const updateFIRData = async (req, res) => {
     });
   }
 };
+
+const updateFIRService = async (req, res) => {
+  try {
+    const { firNumber } = req.params;
+    const { isTranslationDone, isTTSDone, isASRDone, isAddToHistory } = req.body;
+
+    // Find FIR by FIR number
+    const foundFIR = await FIRModel.findOne({ firNumber });
+
+    if (!foundFIR) {
+      return res.status(404).json({
+        success: false,
+        status: 'error',
+        statusCode: 404,
+        message: 'FIR not found',
+      });
+    }
+
+    if (isTranslationDone) {
+      foundFIR.isTranslationDone = isTranslationDone;
+    } else if (isTTSDone) {
+      foundFIR.isTTSDone = isTTSDone;
+    } else if (isASRDone) {
+      foundFIR.isASRDone = isASRDone;
+    } else if (isAddToHistory) {
+      foundFIR.isAddToHistory = isAddToHistory;
+    }
+
+    // Save the updated FIR data
+    await foundFIR.save();
+
+    return res.status(200).json({
+      success: true,
+      status: 'success',
+      statusCode: 200,
+      message: 'Data updated successfully',
+      data: foundFIR,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      status: 'error',
+      statusCode: 500,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+};
 // ===============================================================================================================//
 
 
@@ -752,5 +852,7 @@ module.exports = {
   feedFIRdata,
   searchFIR,
   getAllFIRNumbers,
-  updateFIRData
+  updateFIRData,
+  updateFIRService,
+  addFIRdata
 };
