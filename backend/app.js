@@ -10,7 +10,7 @@ const connectionpOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
-mongoose.connect(uri,connectionpOptions );
+mongoose.connect(uri, connectionpOptions);
 const db = mongoose.connection;
 
 db.on("error", function (err) {
@@ -23,7 +23,8 @@ db.once("open", function () {
 
 const app = express();
 const port = process.env.PORT;
-
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 // user route
 const userRoute = require("./routes/userRoute");
 

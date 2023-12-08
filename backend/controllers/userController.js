@@ -843,7 +843,7 @@ const getAllHistoryFIR = async (req, res) => {
     // Find all FIRs
     const allFIRs = await FIRModel.find();
     if (allFIRs.length > 0) {
-      const updatedModelData = allFIRs.filter(data => data.isAddToHistory===true)
+      const updatedModelData = allFIRs.filter(data => data.isAddToHistory === true)
       res.status(200).json({
         success: true,
         status: 'success',
